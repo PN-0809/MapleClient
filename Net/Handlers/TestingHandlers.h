@@ -27,6 +27,36 @@ namespace ms
 		void handle(InPacket& recv) const override;
 	};
 
+	class LatestConnectedWorldHandler : public PacketHandler
+	{
+		void handle(InPacket& recv) const override;
+	};
+
+	class AdminResultHandler : public PacketHandler
+	{
+		void handle(InPacket& recv) const override;
+	};
+
+	class QuickslotKeyMappedManHandler : public PacketHandler
+	{
+		void handle(InPacket& recv) const override;
+	};
+
+	class sendAutoHpPotHandler : public PacketHandler
+	{
+		void handle(InPacket& recv) const override;
+	};
+
+	class sendAutoMpPotHandler : public PacketHandler
+	{
+		void handle(InPacket& recv) const override;
+	};
+
+	class updateInventorySlotLimitHandler : public PacketHandler
+	{
+		void handle(InPacket& recv) const override;
+	};
+
 	// TODO: Comment
 	class FieldEffectHandler : public PacketHandler
 	{

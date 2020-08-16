@@ -36,6 +36,15 @@ namespace ms
 		UI::get().enable();
 	}
 
+	void LatestConnectedWorldHandler::handle(InPacket& recv) const
+	{
+		uint32_t latestConnectedWorldID = recv.read_int();
+		// CUIWorldSelect::SetFocusWorld
+		if (latestConnectedWorldID < 254 || latestConnectedWorldID > 255) {
+			//SetFocusWorld(CUIWorldSelect *this, int nWorldID);
+		}
+	}
+
 	void FieldEffectHandler::handle(InPacket& recv) const
 	{
 		int rand = recv.read_byte();
@@ -51,5 +60,53 @@ namespace ms
 		}
 
 		std::cout << "[FieldEffectHandler]: Unknown value: [" << rand << "]" << std::endl;
+	}
+
+	void AdminResultHandler::handle(InPacket& recv) const
+	{
+		uint8_t type = recv.read_byte();
+		switch (type) {
+		case 0x04:
+		case 0x05:
+		case 0x06:
+		case 0x10:
+		case 0x1E:
+		case 0x12:
+			recv.read_byte();
+			break;
+		case 0x13:
+			bool map = recv.read_bool();
+			if (map) {
+				recv.read_int();
+			}
+			else {
+				recv.read_byte();
+			}
+		}
+	}
+
+	void QuickslotKeyMappedManHandler::handle(InPacket& recv) const
+	{
+		if (recv.read_bool()) {
+			for (uint8_t i = 0; i < recv.length(); i++) {
+				recv.read_int();
+			}
+		}
+	}
+
+	void sendAutoHpPotHandler::handle(InPacket& recv) const
+	{
+		recv.read_int();
+	}
+
+	void updateInventorySlotLimitHandler::handle(InPacket& recv) const
+	{
+		recv.read_byte();
+		recv.read_byte();
+	}
+
+	void sendAutoMpPotHandler::handle(InPacket& recv) const
+	{
+		recv.read_int();
 	}
 }

@@ -28,7 +28,7 @@ namespace ms
 	{
 	public:
 		// Request to be logged-in to an account
-		LoginPacket(const std::string& acc, const std::string& pass) : OutPacket(OutPacket::Opcode::LOGIN)
+		LoginPacket(const std::string& acc, const std::string& pass) : OutPacket(OutPacket::Opcode::LOGIN_PASSWORD)
 		{
 			std::string volumeSerialNumber = Configuration::get().get_vol_serial_num();
 
@@ -114,7 +114,7 @@ namespace ms
 	{
 	public:
 		// Requests being logged-in to a channel server with the specified character
-		PlayerLoginPacket(int32_t cid) : OutPacket(OutPacket::Opcode::PLAYER_LOGIN)
+		PlayerLoginPacket(int32_t cid) : OutPacket(OutPacket::Opcode::PLAYER_LOGGEDIN)
 		{
 			write_int(cid);
 		}

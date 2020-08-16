@@ -84,7 +84,7 @@ namespace ms
 			switch (type)
 			{
 			case Attack::Type::CLOSE:
-				return OutPacket::Opcode::CLOSE_ATTACK;
+				return OutPacket::Opcode::CLOSE_RANGE_ATTACK;
 			case Attack::Type::RANGED:
 				return OutPacket::Opcode::RANGED_ATTACK;
 			default:
@@ -123,7 +123,7 @@ namespace ms
 	class UseSkillPacket : public OutPacket
 	{
 	public:
-		UseSkillPacket(int32_t skillid, int32_t level) : OutPacket(OutPacket::Opcode::USE_SKILL)
+		UseSkillPacket(int32_t skillid, int32_t level) : OutPacket(OutPacket::Opcode::SPECIAL_MOVE)
 		{
 			write_time();
 			write_int(skillid);
