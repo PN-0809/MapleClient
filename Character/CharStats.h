@@ -58,6 +58,16 @@ namespace ms
 		void set_mapid(int32_t id);
 		int32_t get_mapid() const;
 		uint8_t get_portal() const;
+		void set_hp(uint32_t newhp);
+		void add_hp(int32_t delta);
+		uint32_t get_hp() const;
+		void set_maxhp(uint32_t newmaxhp);
+		uint32_t get_maxhp() const;
+		void set_mp(uint32_t newmp);
+		void add_mp(int32_t delta);
+		uint32_t get_mp() const;
+		void set_maxmp(uint32_t newmaxmp);
+		uint32_t get_maxmp() const;
 		int64_t get_exp() const;
 		const std::string& get_name() const;
 		const std::string& get_jobname() const;
@@ -79,6 +89,7 @@ namespace ms
 		int8_t get_attackspeed() const;
 		const Job& get_job() const;
 		bool get_female() const;
+		void set_female(uint8_t type);
 
 	private:
 		int32_t calculateaccuracy() const;
@@ -89,6 +100,10 @@ namespace ms
 		std::string name;
 		std::vector<int64_t> petids;
 		Job job;
+		uint32_t hp;
+		uint32_t maxhp;
+		uint32_t mp;
+		uint32_t maxmp;
 		int64_t exp;
 		int32_t mapid;
 		uint8_t portal;

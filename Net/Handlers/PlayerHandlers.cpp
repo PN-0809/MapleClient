@@ -65,14 +65,14 @@ namespace ms
 		switch (stat)
 		{
 		case MapleStat::Id::SKIN:
-			player.change_look(stat, recv.read_short());
+			player.change_look(stat, recv.read_byte());
 			break;
 		case MapleStat::Id::FACE:
 		case MapleStat::Id::HAIR:
 			player.change_look(stat, recv.read_int());
 			break;
 		case MapleStat::Id::LEVEL:
-			player.change_level(recv.read_byte());
+			player.change_level(recv.read_short());
 			break;
 		case MapleStat::Id::JOB:
 			player.change_job(recv.read_short());
@@ -82,6 +82,18 @@ namespace ms
 			break;
 		case MapleStat::Id::MESO:
 			player.get_inventory().set_meso(recv.read_int());
+			break;
+		case MapleStat::Id::HP:
+			player.get_stats().set_hp(recv.read_int());
+			break;
+		case MapleStat::Id::MP:
+			player.get_stats().set_mp(recv.read_int());
+			break;
+		case MapleStat::Id::MAXHP:
+			player.get_stats().set_maxhp(recv.read_int());
+			break;
+		case MapleStat::Id::MAXMP:
+			player.get_stats().set_maxmp(recv.read_int());
 			break;
 		default:
 			player.get_stats().set_stat(stat, recv.read_short());
@@ -194,12 +206,25 @@ namespace ms
 		int32_t masterlevel = recv.read_int();
 		int64_t expire = recv.read_long();
 
+		int8_t stat = recv.read_byte(); // SetSecondaryStatChangedPoint
+
 		Stage::get().get_player().change_skill(skillid, level, masterlevel, expire);
 
 		if (auto skillbook = UI::get().get_element<UISkillBook>())
 			skillbook->update_skills(skillid);
 
 		UI::get().enable();
+	}
+
+	void GivePopularityResultHandler::handle(InPacket& recv) const
+	{
+		recv.skip(1);
+		std::string charname = recv.read_string();
+		recv.skip(1);
+		uint16_t newfame = recv.read_byte();
+		recv.skip(2);
+
+		/// NotifyGivePopResult TODO
 	}
 
 	void SkillMacrosHandler::handle(InPacket& recv) const
@@ -223,17 +248,60 @@ namespace ms
 
 		Stage::get().get_player().add_cooldown(skill_id, cooltime);
 	}
-
-	void KeymapHandler::handle(InPacket& recv) const
+	
+	/// TODO
+	void forcedStatSetHandler::handle(InPacket& recv) const
 	{
-		recv.skip(1);
-
-		for (uint8_t i = 0; i < 90; i++)
-		{
-			uint8_t type = recv.read_byte();
-			int32_t action = recv.read_int();
-
-			UI::get().add_keymapping(i, type, action);
+		Player& player = Stage::get().get_player();
+		uint32_t mask = recv.read_int();
+		if ((mask & 1) != 0) {
+			uint16_t STR = recv.read_short();
+			player.get_stats().set_stat(MapleStat::STR, STR);
 		}
+		if ((mask & 2) != 0) {
+			uint16_t DEX = recv.read_short();
+			player.get_stats().set_stat(MapleStat::STR, DEX);
+		}
+		if ((mask & 4) != 0) {
+			uint16_t INT = recv.read_short();
+			player.get_stats().set_stat(MapleStat::STR, INT);
+		}
+		if ((mask & 8) != 0)  {
+			uint16_t LUK = recv.read_short();
+			player.get_stats().set_stat(MapleStat::STR, LUK);
+		}
+		if ((mask & 0x10) != 0)  {
+			uint16_t PAD = recv.read_short();
+		}
+		if ((mask & 0x20) != 0)  {
+			uint16_t PDD = recv.read_short();
+		}
+		if ((mask & 0x40) != 0)  {
+			uint16_t MAD = recv.read_short();
+		}
+		if ((mask & 0x80) != 0)  {
+			uint16_t MDD = recv.read_short();
+		}
+		if ((mask & 0x100) != 0) {
+			uint16_t ACC = recv.read_short();
+		}
+		if ((mask & 0x200) != 0) {
+			uint16_t EVA = recv.read_short();
+		}
+		if ((mask & 0x400) != 0) {
+			uint8_t Speed = recv.read_byte();
+		}
+		if ((mask & 0x800) != 0) {
+			uint8_t Jump = recv.read_byte();
+		}
+		if ((mask & 0x800) != 0) {
+			uint8_t SpeedMax = recv.read_byte();
+		}
+	}
+
+	void SetGenderHandler::handle(InPacket& recv) const
+	{
+		Player& player = Stage::get().get_player();
+		player.get_stats().set_female(recv.read_byte());
 	}
 }

@@ -246,8 +246,8 @@ namespace ms
 		int32_t level = skillbook.get_level(move.get_id());
 		Weapon::Type weapon = get_weapontype();
 		const Job& job = stats.get_job();
-		uint16_t hp = stats.get_stat(MapleStat::Id::HP);
-		uint16_t mp = stats.get_stat(MapleStat::Id::MP);
+		uint32_t hp = stats.get_hp();
+		uint32_t mp = stats.get_mp();
 		uint16_t bullets = inventory.get_bulletcount();
 
 		return move.can_use(level, weapon, job, hp, mp, bullets);

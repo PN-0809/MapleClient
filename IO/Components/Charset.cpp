@@ -100,7 +100,53 @@ namespace ms
 
 		return shift;
 	}
+	
+	int16_t Charset::draw(const std::string& text, const DrawArgument& args, int16_t hspace) const
+	{
+		int16_t shift = 0;
+		int16_t total = 0;
 
+		switch (alignment)
+		{
+		case Charset::Alignment::CENTER:
+		{
+			for (char c : text)
+			{
+				int16_t width = getw(c);
+
+				draw(c, args + Point<int16_t>(shift, 0));
+				shift += width + hspace;
+				total += width;
+			}
+
+			shift -= total / 2;
+			break;
+		}
+		case Charset::Alignment::LEFT:
+		{
+			for (char c : text)
+			{
+				draw(c, args + Point<int16_t>(shift, 0));
+				shift += getw(c) + hspace;
+			}
+
+			break;
+		}
+		case Charset::Alignment::RIGHT:
+		{
+			for (auto iter = text.rbegin(); iter != text.rend(); ++iter)
+			{
+				char c = *iter;
+				shift += getw(c);
+				draw(c, args - Point<int16_t>(shift, 0));
+			}
+
+			break;
+		}
+		}
+
+		return shift;
+	}
 	int16_t Charset::draw(const std::string& text, int16_t hspace, const DrawArgument& args) const
 	{
 		size_t length = text.size();

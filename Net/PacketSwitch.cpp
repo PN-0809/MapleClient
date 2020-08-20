@@ -28,6 +28,7 @@
 #include "Handlers/PlayerHandlers.h"
 #include "Handlers/PlayerInteractionHandlers.h"
 #include "Handlers/SetFieldHandlers.h"
+#include "Handlers/PartyHandlers.h"
 #include "Handlers/TestingHandlers.h"
 
 #include "../Configuration.h"
@@ -387,8 +388,10 @@ namespace ms
 		emplace<STAT_CHANGED, ChangeStatsHandler>();
 		emplace<GIVE_BUFF, ApplyBuffHandler>();
 		emplace<CANCEL_BUFF, CancelBuffHandler>();
+		emplace<FORCED_STAT_SET, forcedStatSetHandler>();
 		emplace<FORCED_STAT_RESET, RecalculateStatsHandler>();
 		emplace<UPDATE_SKILLS, UpdateSkillHandler>();
+		emplace<FAME_RESPONSE, GivePopularityResultHandler>();
 		emplace<COOLDOWN, AddCooldownHandler>();
 		emplace<SHOW_STATUS_INFO, ShowStatusInfoHandler>();
 		emplace<CHATTEXT, ChatReceivedHandler>();
@@ -404,6 +407,8 @@ namespace ms
 		emplace<OPEN_NPC_SHOP, OpenNpcShopHandler>();
 		emplace<CHAR_INFO, CharInfoHandler>();
 		emplace<SET_CASH_SHOP, SetCashShopHandler>();
+		emplace<PARTY_OPERATION, PartyResultHandler>();
+		emplace<PARTY_VALUE, PartyValueHandler>();
 		// TODO: New handlers, they need coded and moved to a proper file.
 		emplace<LAST_CONNECTED_WORLD, LatestConnectedWorldHandler>();
 		emplace<CHECK_SPW_RESULT, CheckSpwResultHandler>();
@@ -412,6 +417,18 @@ namespace ms
 		emplace<QUICKSLOT_INIT, QuickslotKeyMappedManHandler>();
 		emplace<AUTO_HP_POT, sendAutoHpPotHandler>();
 		emplace<AUTO_MP_POT, sendAutoMpPotHandler>();
+		emplace<MAP_TRANSFER_RESULT, MapTransferResultHandler>();
+		emplace<SET_TAMING_MOB_INFO, SetTamingMobInfoHandler>();
+		emplace<QUEST_CLEAR, SetShowQuestCompletionHandler>();
+		emplace<SKILL_LEARN_ITEM_RESULT, skillBookResultHandler>();
+		emplace<SUE_CHARACTER_RESULT, SueCharacterResultHandler>();
+		emplace<TRADE_MONEY_LIMIT, TradeMoneyLimitHandler>();
+		emplace<SET_GENDER, SetGenderHandler>();
+		emplace<SPAWN_PORTAL, TownPortalHandler>();
+		emplace<NOTIFY_LEVELUP, NotifyLevelUpHandler>();
+		emplace<BUDDYLIST, FriendResultHandler>();
+		emplace<SCRIPT_PROGRESS_MESSAGE, ScriptProgressMessageHandler>();
+		emplace<CLOCK, ClockHandler>();
 	}
 
 	void PacketSwitch::forward(const int8_t* bytes, size_t length) const

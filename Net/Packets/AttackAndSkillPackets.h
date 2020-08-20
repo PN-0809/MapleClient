@@ -18,6 +18,7 @@
 #pragma once
 
 #include "../OutPacket.h"
+#include "../../Gameplay/Stage.h"
 
 namespace ms
 {
@@ -105,6 +106,7 @@ namespace ms
 
 		TakeDamagePacket(int8_t from, uint8_t element, int32_t damage, int32_t mobid, int32_t oid, uint8_t direction) : OutPacket(OutPacket::Opcode::TAKE_DAMAGE)
 		{
+			Player& player = Stage::get().get_player();
 			write_time();
 			write_byte(from);
 			write_byte(element);
@@ -112,6 +114,8 @@ namespace ms
 			write_int(mobid);
 			write_int(oid);
 			write_byte(direction);
+
+			player.get_stats().add_hp(-damage);
 		}
 
 		// From mob attack result

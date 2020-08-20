@@ -64,7 +64,7 @@ namespace ms
 			next_y = vbounds.second() + VHEIGHT;
 
 		x = next_x;
-		y = next_y;
+		y = next_y + 2.0;
 	}
 
 	void Camera::set_position(Point<int16_t> position)
@@ -79,7 +79,7 @@ namespace ms
 		}
 
 		x.set(VWIDTH / 2 - position.x());
-		y.set(VHEIGHT / 2 - position.y());
+		y.set((VHEIGHT / 2 - position.y()) + 2.0);
 	}
 
 	void Camera::set_view(Range<int16_t> mapwalls, Range<int16_t> mapborders)

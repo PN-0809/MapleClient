@@ -125,6 +125,8 @@ namespace ms
 	{
 	public:
 		// Sends whenever we hit the start of the Login screen
-		LoginStartPacket() : OutPacket(OutPacket::Opcode::LOGIN_START) {}
+		LoginStartPacket() : OutPacket(OutPacket::Opcode::LOGIN_START) {
+			// TODO: Check on File, Version
+		}
 	};
 }

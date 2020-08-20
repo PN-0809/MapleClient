@@ -17,74 +17,20 @@
 //////////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "../Character/MapleStat.h"
-
-#include <map>
-#include <vector>
+#include "../PacketHandler.h"
 
 namespace ms
 {
-	struct Account
+	class PartyResultHandler : public PacketHandler 
 	{
-		int32_t accid;
-		int8_t female;
-		bool admin;
-		std::string name;
-		bool muted;
-		bool pin;
-		int8_t pic;
+	public:
+		void handle(InPacket& recv) const override;
+	private:
+		void message(InPacket& recv) const;
 	};
 
-	struct World
+	class PartyValueHandler : public PacketHandler
 	{
-		std::string name;
-		std::string message;
-		std::vector<uint32_t> chloads;
-		uint8_t channelcount;
-		uint8_t flag;
-		int8_t wid;
-	};
-
-	struct RecommendedWorld
-	{
-		std::string message;
-		int32_t wid;
-	};
-
-	struct StatsEntry
-	{
-		std::string name;
-		bool female;
-		std::vector<int64_t> petids;
-		EnumMap<MapleStat::Id, uint16_t> stats;
-		uint32_t hp;
-		uint32_t maxhp;
-		uint32_t mp;
-		uint32_t maxmp;
-		int64_t exp;
-		int64_t termexp;
-		int32_t mapid;
-		uint8_t portal;
-		int32_t playTime;
-		std::pair<int32_t, int8_t> rank;
-		std::pair<int32_t, int8_t> jobrank;
-	};
-
-	struct LookEntry
-	{
-		bool female;
-		uint8_t skin;
-		int32_t faceid;
-		int32_t hairid;
-		std::map<int8_t, int32_t> equips;
-		std::map<int8_t, int32_t> maskedequips;
-		std::vector<int32_t> petids;
-	};
-
-	struct CharEntry
-	{
-		StatsEntry stats;
-		LookEntry look;
-		int32_t id;
+		void handle(InPacket& recv) const override;
 	};
 }

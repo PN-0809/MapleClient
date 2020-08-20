@@ -123,6 +123,7 @@ namespace ms
 		Gauge mpbar;
 		Charset statset;
 		Charset hpmpset;
+		Charset maxhpmpset;
 		Charset levelset;
 		Texture quickslot[2];
 		Texture menutitle[5];
@@ -133,7 +134,9 @@ namespace ms
 		Point<int16_t> exp_pos;
 		Point<int16_t> hpmp_pos;
 		Point<int16_t> hpset_pos;
+		Point<int16_t> maxhpset_pos;
 		Point<int16_t> mpset_pos;
+		Point<int16_t> maxmpset_pos;
 		Point<int16_t> statset_pos;
 		Point<int16_t> levelset_pos;
 		Point<int16_t> namelabel_pos;

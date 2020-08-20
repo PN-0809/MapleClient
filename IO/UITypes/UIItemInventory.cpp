@@ -141,8 +141,8 @@ namespace ms
 	{
 		UIElement::draw_sprites(alpha);
 
-		Point<int16_t> mesolabel_pos = position + Point<int16_t>(127, 262);
-		Point<int16_t> maplepointslabel_pos = position + Point<int16_t>(159, 279);
+		Point<int16_t> mesolabel_pos = position + Point<int16_t>(127, 264);
+		Point<int16_t> maplepointslabel_pos = position + Point<int16_t>(159, 281);
 
 		if (full_enabled)
 		{

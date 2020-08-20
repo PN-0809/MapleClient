@@ -35,11 +35,17 @@ namespace ms
 	UIQuit::UIQuit(const CharStats& st) : screen_adj(212, 114), stats(st)
 	{
 		nl::node askReward = nl::nx::ui["UIWindow6.img"]["askReward"];
+
 		nl::node userLog = askReward["userLog"];
 		nl::node exp = userLog["exp"];
 		nl::node level = userLog["level"];
 		nl::node time = userLog["time"];
 		nl::node backgrnd = userLog["backgrnd"];
+
+		nl::node item = askReward["item"];
+		nl::node itembackgrnd = item["backgrnd"];
+
+		nl::node reward = askReward["reward"];
 
 		sprites.emplace_back(backgrnd, -screen_adj);
 
@@ -85,7 +91,7 @@ namespace ms
 
 		levelNumberWidth = level["numberWidth"];
 
-		level_adj = Point<int16_t>(40, 0);
+		level_adj = Point<int16_t>(28, 0);
 
 		/// Experience
 		int64_t upexp = stage.get_upexp();
@@ -104,14 +110,18 @@ namespace ms
 		expAfter = Text(Text::Font::A11M, Text::Alignment::LEFT, Color::Name::ELECTRICLIME, expAfterText);
 		expAfterPos = exp["posAfter"];
 
-		exp_adj = Point<int16_t>(0, 6);
+		exp_adj = Point<int16_t>(0, 3);
 
+		/// Background
 		int16_t width = Constants::Constants::get().get_viewwidth();
 		int16_t height = Constants::Constants::get().get_viewheight();
 
 		background = ColorBox(width, height, Color::Name::BLACK, 0.5f);
 		position = Point<int16_t>(width / 2, height / 2);
 		dimension = Texture(backgrnd).get_dimensions();
+
+		/// Item
+
 	}
 
 	void UIQuit::draw(float inter) const

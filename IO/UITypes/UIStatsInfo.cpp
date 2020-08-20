@@ -96,7 +96,7 @@ namespace ms
 		statoffsets[StatLabel::DAMAGE] = Point<int16_t>(74, 98);
 		statoffsets[StatLabel::HP] = Point<int16_t>(74, 116);
 		statoffsets[StatLabel::MP] = Point<int16_t>(74, 134);
-		statoffsets[StatLabel::AP] = Point<int16_t>(91, 175);
+		statoffsets[StatLabel::AP] = Point<int16_t>(91, 176);
 		statoffsets[StatLabel::STR] = Point<int16_t>(73, 204);
 		statoffsets[StatLabel::DEX] = Point<int16_t>(73, 222);
 		statoffsets[StatLabel::INT] = Point<int16_t>(73, 240);
@@ -207,8 +207,8 @@ namespace ms
 
 		statlabels[StatLabel::NAME].change_text(stats.get_name());
 		statlabels[StatLabel::GUILD].change_text("-");
-		statlabels[StatLabel::HP].change_text(std::to_string(stats.get_stat(MapleStat::Id::HP)) + " / " + std::to_string(stats.get_total(EquipStat::Id::HP)));
-		statlabels[StatLabel::MP].change_text(std::to_string(stats.get_stat(MapleStat::Id::MP)) + " / " + std::to_string(stats.get_total(EquipStat::Id::MP)));
+		statlabels[StatLabel::HP].change_text(std::to_string(stats.get_total(EquipStat::Id::HP)) + " / " + std::to_string(stats.get_maxhp()));
+		statlabels[StatLabel::MP].change_text(std::to_string(stats.get_total(EquipStat::Id::MP)) + " / " + std::to_string(stats.get_maxmp()));
 
 		update_basevstotal(StatLabel::STR, MapleStat::Id::STR, EquipStat::Id::STR);
 		update_basevstotal(StatLabel::DEX, MapleStat::Id::DEX, EquipStat::Id::DEX);

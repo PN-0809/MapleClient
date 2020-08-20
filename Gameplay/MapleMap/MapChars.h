@@ -50,6 +50,7 @@ namespace ms
 		void update_look(int32_t cid, const LookEntry& look);
 
 		Optional<OtherChar> get_char(int32_t cid);
+		Optional<OtherChar> get_char(std::string charname);
 
 	private:
 		MapObjects chars;

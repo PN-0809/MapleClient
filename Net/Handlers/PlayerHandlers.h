@@ -70,6 +70,13 @@ namespace ms
 		void handle_buff(InPacket& recv, Buffstat::Id stat) const override;
 	};
 
+	// Force a stat
+	// Opcode: FORCED_STAT_SET(34)
+	class forcedStatSetHandler : public PacketHandler
+	{
+		void handle(InPacket& recv) const override;
+	};
+
 	// Force a stat recalculation
 	// Opcode: RECALCULATE_STATS(35)
 	class RecalculateStatsHandler : public PacketHandler
@@ -84,6 +91,13 @@ namespace ms
 		void handle(InPacket& recv) const override;
 	};
 
+	// Give fame to another player 
+	// Opcode: FAME_RESPONSE(38)
+	class GivePopularityResultHandler : public PacketHandler
+	{
+		void handle(InPacket& recv) const override;
+	};
+	
 	// Parses skill macros
 	// Opcode: SKILL_MACROS(124)
 	class SkillMacrosHandler : public PacketHandler
@@ -97,10 +111,8 @@ namespace ms
 	{
 		void handle(InPacket& recv) const override;
 	};
-
-	// Parses key mappings and sends them to the keyboard
-	// Opcode: KEYMAP(335)
-	class KeymapHandler : public PacketHandler
+	
+	class SetGenderHandler : public PacketHandler
 	{
 		void handle(InPacket& recv) const override;
 	};

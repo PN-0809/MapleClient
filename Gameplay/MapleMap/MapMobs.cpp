@@ -62,6 +62,9 @@ namespace ms
 	{
 		if (Optional<Mob> mob = mobs.get(oid))
 			mob->kill(animation);
+		if (animation) {
+			mobs.remove(oid);
+		}
 	}
 
 	void MapMobs::clear()

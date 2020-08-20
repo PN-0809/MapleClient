@@ -91,7 +91,7 @@ namespace ms
 
 		speaker.draw(DrawArgument(center_pos, true));
 		nametag.draw(speaker_pos);
-		name.draw(center_pos + Point<int16_t>(0, -4));
+		name.draw(center_pos + Point<int16_t>(0, -2));
 
 		if (show_slider)
 		{

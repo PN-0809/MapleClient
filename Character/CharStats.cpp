@@ -21,7 +21,7 @@
 
 namespace ms
 {
-	CharStats::CharStats(const StatsEntry& s) : name(s.name), petids(s.petids), exp(s.exp), mapid(s.mapid), portal(s.portal), rank(s.rank), jobrank(s.jobrank), basestats(s.stats), female(s.female)
+	CharStats::CharStats(const StatsEntry& s) : name(s.name), petids(s.petids), hp(s.hp), maxhp(s.maxhp), mp(s.mp), maxmp(s.maxmp), exp(s.exp), mapid(s.mapid), portal(s.portal), rank(s.rank), jobrank(s.jobrank), basestats(s.stats), female(s.female)
 	{
 		job = basestats[MapleStat::Id::JOB];
 
@@ -36,8 +36,8 @@ namespace ms
 		buffdeltas.clear();
 		percentages.clear();
 
-		totalstats[EquipStat::Id::HP] = get_stat(MapleStat::Id::MAXHP);
-		totalstats[EquipStat::Id::MP] = get_stat(MapleStat::Id::MAXMP);
+		totalstats[EquipStat::Id::HP] = hp;
+		totalstats[EquipStat::Id::MP] = mp;
 		totalstats[EquipStat::Id::STR] = get_stat(MapleStat::Id::STR);
 		totalstats[EquipStat::Id::DEX] = get_stat(MapleStat::Id::DEX);
 		totalstats[EquipStat::Id::INT] = get_stat(MapleStat::Id::INT);
@@ -263,6 +263,56 @@ namespace ms
 		return portal;
 	}
 
+	void CharStats::set_hp(uint32_t newhp)
+	{
+		hp = newhp;
+	}
+
+	void CharStats::add_hp(int32_t delta)
+	{
+		hp = hp + delta;
+	}
+
+	uint32_t CharStats::get_hp() const
+	{
+		return hp;
+	}
+
+	void CharStats::set_maxhp(uint32_t newmaxhp)
+	{
+		maxhp = newmaxhp;
+	}
+
+	uint32_t CharStats::get_maxhp() const
+	{
+		return maxhp;
+	}
+
+	void CharStats::set_mp(uint32_t newmp)
+	{
+		mp = newmp;
+	}
+
+	void CharStats::add_mp(int32_t delta)
+	{
+		mp = mp + delta;
+	}
+
+	uint32_t CharStats::get_mp() const
+	{
+		return mp;
+	}
+
+	void CharStats::set_maxmp(uint32_t newmaxmp)
+	{
+		maxmp = newmaxmp;
+	}
+
+	uint32_t CharStats::get_maxmp() const
+	{
+		return maxmp;
+	}
+
 	int64_t CharStats::get_exp() const
 	{
 		return exp;
@@ -366,5 +416,10 @@ namespace ms
 	bool CharStats::get_female() const
 	{
 		return female;
+	}
+
+	void CharStats::set_female(uint8_t type)
+	{
+		female = type;
 	}
 }

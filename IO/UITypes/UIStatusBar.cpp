@@ -105,11 +105,13 @@ namespace ms
 		if (VWIDTH == 800)
 		{
 			hpmp_pos = Point<int16_t>(412, 40);
-			hpset_pos = Point<int16_t>(530, 70);
-			mpset_pos = Point<int16_t>(528, 86);
+			hpset_pos = Point<int16_t>(503, 70);
+			maxhpset_pos = Point<int16_t>(503, 70);
+			mpset_pos = Point<int16_t>(503, 86);
+			maxmpset_pos = Point<int16_t>(503, 86);
 			statset_pos = Point<int16_t>(427, 111);
-			levelset_pos = Point<int16_t>(461, 48);
-			namelabel_pos = Point<int16_t>(487, 40);
+			levelset_pos = Point<int16_t>(453, 48.8);
+			namelabel_pos = Point<int16_t>(489, 40);
 			quickslot_pos = Point<int16_t>(579, 0);
 
 			// Menu
@@ -122,11 +124,13 @@ namespace ms
 		else
 		{
 			hpmp_pos = Point<int16_t>(416 + pos_adj, 40);
-			hpset_pos = Point<int16_t>(550 + pos_adj, 70);
-			mpset_pos = Point<int16_t>(546 + pos_adj, 86);
+			hpset_pos = Point<int16_t>(528 + pos_adj, 70);
+			maxhpset_pos = Point<int16_t>(528 + pos_adj, 70);
+			mpset_pos = Point<int16_t>(528 + pos_adj, 86);
+			maxmpset_pos = Point<int16_t>(528 + pos_adj, 86);
 			statset_pos = Point<int16_t>(539 + pos_adj, 111);
-			levelset_pos = Point<int16_t>(465 + pos_adj, 48);
-			namelabel_pos = Point<int16_t>(493 + pos_adj, 40);
+			levelset_pos = Point<int16_t>(457 + pos_adj, 48.8);
+			namelabel_pos = Point<int16_t>(495 + pos_adj, 40);
 			quickslot_pos = Point<int16_t>(628 + pos_adj, 37);
 
 			// Menu
@@ -190,6 +194,7 @@ namespace ms
 
 		statset = Charset(EXPBar["number"], Charset::Alignment::RIGHT);
 		hpmpset = Charset(status["gauge"]["number"], Charset::Alignment::RIGHT);
+		maxhpmpset = Charset(status["gauge"]["number"], Charset::Alignment::LEFT);
 		levelset = Charset(status["lvNumber"], Charset::Alignment::LEFT);
 
 		namelabel = OutlinedText(Text::Font::A13M, Text::Alignment::LEFT, Color::Name::GALLERY, Color::Name::TUNA);
@@ -381,10 +386,10 @@ namespace ms
 		hpmp_sprites[2].draw(position, alpha);
 
 		int16_t level = stats.get_stat(MapleStat::Id::LEVEL);
-		int16_t hp = stats.get_stat(MapleStat::Id::HP);
-		int16_t mp = stats.get_stat(MapleStat::Id::MP);
-		int32_t maxhp = stats.get_total(EquipStat::Id::HP);
-		int32_t maxmp = stats.get_total(EquipStat::Id::MP);
+		uint32_t hp = stats.get_hp();
+		uint32_t mp = stats.get_mp();
+		uint32_t maxhp = stats.get_maxhp();
+		uint32_t maxmp = stats.get_maxmp();
 		int64_t exp = stats.get_exp();
 
 		std::string expstring = std::to_string(100 * getexppercent());
@@ -394,15 +399,11 @@ namespace ms
 			position + statset_pos
 		);
 
-		hpmpset.draw(
-			"[" + std::to_string(hp) + "/" + std::to_string(maxhp) + "]",
-			position + hpset_pos
-		);
+		hpmpset.draw("[" + std::to_string(hp) + "/", position + hpset_pos);
+		maxhpmpset.draw(std::to_string(maxhp) + "]", position + maxhpset_pos, 0);
 
-		hpmpset.draw(
-			"[" + std::to_string(mp) + "/" + std::to_string(maxmp) + "]",
-			position + mpset_pos
-		);
+		hpmpset.draw("[" + std::to_string(mp) + "/", position + mpset_pos);
+		maxhpmpset.draw(std::to_string(maxmp) + "]", position + maxmpset_pos, 0);
 
 		levelset.draw(
 			std::to_string(level),
@@ -1060,16 +1061,16 @@ namespace ms
 
 	float UIStatusBar::gethppercent() const
 	{
-		int16_t hp = stats.get_stat(MapleStat::Id::HP);
-		int32_t maxhp = stats.get_total(EquipStat::Id::HP);
+		uint32_t hp = stats.get_hp();
+		uint32_t maxhp = stats.get_maxhp();
 
 		return static_cast<float>(hp) / maxhp;
 	}
 
 	float UIStatusBar::getmppercent() const
 	{
-		int16_t mp = stats.get_stat(MapleStat::Id::MP);
-		int32_t maxmp = stats.get_total(EquipStat::Id::MP);
+		uint32_t mp = stats.get_mp();
+		uint32_t maxmp = stats.get_maxmp();
 
 		return static_cast<float>(mp) / maxmp;
 	}

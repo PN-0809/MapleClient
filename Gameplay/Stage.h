@@ -82,6 +82,9 @@ namespace ms
 		// Return a pointer to a character, possibly the player.
 		Optional<Char> get_character(int32_t cid);
 
+		// Return a pointer to a character, possibly the player.
+		Optional<Char> get_character(std::string charname);
+
 		// Set a map effect
 		void add_effect(std::string path);
 

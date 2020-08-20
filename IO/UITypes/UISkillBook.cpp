@@ -219,7 +219,7 @@ namespace ms
 
 		bookicon.draw(position + Point<int16_t>(11, 85));
 		booktext.draw(position + Point<int16_t>(173, 59));
-		splabel.draw(position + Point<int16_t>(304, 23));
+		splabel.draw(position + Point<int16_t>(304, 24));
 
 		Point<int16_t> skill_position_l = position + SKILL_OFFSET + Point<int16_t>(-1, 0);
 		Point<int16_t> skill_position_r = position + SKILL_OFFSET + Point<int16_t>(-1 + ROW_WIDTH, 0);

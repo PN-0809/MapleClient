@@ -76,7 +76,7 @@ namespace ms
 	{
 		float hp_percent = static_cast<float>(level["x"]) / 100;
 		int32_t hp_threshold = static_cast<int32_t>(stats.get_total(EquipStat::Id::HP) * hp_percent);
-		int32_t hp_current = stats.get_stat(MapleStat::Id::HP);
+		int32_t hp_current = stats.get_hp();
 
 		return hp_current <= hp_threshold;
 	}
@@ -94,7 +94,6 @@ namespace ms
 
 		// Fighter
 		buffs[SkillId::Id::SWORD_MASTERY_FIGHTER] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SWORD_1H, Weapon::Type::SWORD_2H>>();
-		buffs[SkillId::Id::AXE_MASTERY] = std::make_unique<WeaponMasteryBuff<Weapon::Type::AXE_1H, Weapon::Type::AXE_2H>>();
 
 		// Crusader
 
@@ -103,7 +102,6 @@ namespace ms
 
 		// Page
 		buffs[SkillId::Id::SWORD_MASTERY_FIGHTER] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SWORD_1H, Weapon::Type::SWORD_2H>>();
-		buffs[SkillId::Id::BW_MASTERY] = std::make_unique<WeaponMasteryBuff<Weapon::Type::MACE_1H, Weapon::Type::MACE_2H>>();
 
 		// White Knight
 
@@ -111,8 +109,6 @@ namespace ms
 		buffs[SkillId::Id::ACHILLES_PALADIN] = std::make_unique<AchillesBuff>();
 
 		// Spearman
-		buffs[SkillId::Id::SPEAR_MASTERY] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SPEAR>>();
-		buffs[SkillId::Id::PA_MASTERY] = std::make_unique<WeaponMasteryBuff<Weapon::Type::POLEARM>>();
 
 		// Dragon Knight
 
