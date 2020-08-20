@@ -214,8 +214,8 @@ namespace ms
 		switch (move.get_id())
 		{
 		case SkillId::Id::TELEPORT_FP:
-		case SkillId::Id::IL_TELEPORT:
-		case SkillId::Id::PRIEST_TELEPORT:
+		case SkillId::Id::TELEPORT_IL:
+		case SkillId::Id::TELEPORT_PRIEST:
 		case SkillId::Id::FLASH_JUMP:
 		default:
 			break;
