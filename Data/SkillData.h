@@ -54,7 +54,7 @@ namespace ms
 		enum Flags
 		{
 			NONE = 0x0000,
-			ATTACK = 0x0001,
+			CLOSE = 0x0001,
 			RANGED = 0x0002
 		};
 
