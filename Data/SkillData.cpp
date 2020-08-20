@@ -18,8 +18,9 @@
 #include "SkillData.h"
 
 #include "../Character/SkillId.h"
+#include "../Data/BulletData.h"
 #include "../Util/Misc.h"
-
+#include"../Net/OutPacket.h"
 #ifdef USE_NX
 #include <nlnx/nx.hpp>
 #endif
@@ -73,6 +74,7 @@ namespace ms
 			);
 		}
 
+
 		element = src["elemAttr"];
 
 		if (jobid == "900" || jobid == "910")
@@ -102,53 +104,153 @@ namespace ms
 		static const std::unordered_map<int32_t, int32_t> skill_flags =
 		{
 			// Beginner
-			{ SkillId::THREE_SNAILS, ATTACK },
+			{ SkillId::THREE_SNAILS, CLOSE },
 			// Warrior
-			{ SkillId::POWER_STRIKE, ATTACK },
-			{ SkillId::SLASH_BLAST, ATTACK },
+			{ SkillId::POWER_STRIKE, CLOSE },
+			{ SkillId::SLASH_BLAST, CLOSE },
 			// Fighter
+			//{ SkillId::FA_SWORD_FIGHTER, CLOSE },
+			//{ SkillId::FA_AXE_FIGHTER, CLOSE },
 			// Page
 			// Crusader
-			{ SkillId::SWORD_PANIC, ATTACK },
-			{ SkillId::AXE_PANIC, ATTACK },
-			{ SkillId::SWORD_COMA, ATTACK },
-			{ SkillId::AXE_COMA, ATTACK },
+			{ SkillId::PANIC_SWORD, CLOSE },
+			{ SkillId::PANIC_AXE, CLOSE },
+			{ SkillId::COMA_SWORD, CLOSE },
+			{ SkillId::COMA_AXE, CLOSE },
 			// Hero
-			{ SkillId::RUSH_HERO, ATTACK },
-			{ SkillId::BRANDISH, ATTACK },
+			{ SkillId::RUSH_HERO, CLOSE },
+			{ SkillId::BRANDISH, CLOSE },
 			// Page
 			// White Knight
-			{ SkillId::CHARGE, ATTACK },
+			{ SkillId::CHARGED_BLOW, CLOSE },
 			// Paladin
-			{ SkillId::RUSH_PALADIN, ATTACK },
-			{ SkillId::BLAST, ATTACK },
-			{ SkillId::HEAVENS_HAMMER, ATTACK },
+			{ SkillId::RUSH_PALADIN, CLOSE },
+			{ SkillId::BLAST, CLOSE },
+			{ SkillId::HEAVENS_HAMMER, CLOSE },
 			// Spearman
 			// Dragon Knight
-			{ SkillId::DRAGON_BUSTER, ATTACK },
-			{ SkillId::DRAGON_FURY, ATTACK },
-			{ SkillId::PA_BUSTER, ATTACK },
-			{ SkillId::PA_FURY, ATTACK },
-			{ SkillId::SACRIFICE, ATTACK },
-			{ SkillId::DRAGONS_ROAR, ATTACK },
+			{ SkillId::DRAGON_FURY_PA, CLOSE },
+			{ SkillId::DRAGON_FURY_SPEAR, CLOSE },
+			{ SkillId::PA_CRUSHER, CLOSE },
+			{ SkillId::SPEAR_CRUSHER, CLOSE },
+			{ SkillId::SACRIFICE, CLOSE },
+			{ SkillId::DRAGON_ROAR, CLOSE },
 			// Dark Knight
-			{ SkillId::RUSH_DK, ATTACK },
-			// Mage
-			{ SkillId::ENERGY_BOLT, ATTACK | RANGED },
-			{ SkillId::MAGIC_CLAW, ATTACK | RANGED },
-			// F/P Mage
-			{ SkillId::SLOW_FP, ATTACK },
-			{ SkillId::FIRE_ARROW, ATTACK | RANGED },
-			{ SkillId::POISON_BREATH, ATTACK | RANGED },
-			// F/P ArchMage
-			{ SkillId::EXPLOSION, ATTACK },
-			{ SkillId::POISON_BREATH, ATTACK },
-			{ SkillId::SEAL_FP, ATTACK },
-			{ SkillId::ELEMENT_COMPOSITION_FP, ATTACK | RANGED },
-			// TODO: Blank?
-			{ SkillId::FIRE_DEMON, ATTACK },
-			{ SkillId::PARALYZE, ATTACK | RANGED },
-			{ SkillId::METEOR_SHOWER, ATTACK }
+			{ SkillId::RUSH_DK, CLOSE },
+			{ SkillId::BEHOLDER, CLOSE },
+			// Magician
+			{ SkillId::ENERGY_BOLT, CLOSE},
+			{ SkillId::MAGIC_CLAW, CLOSE},
+			// Fire/Poison Wizard
+			{ SkillId::SLOW_FP, CLOSE },
+			{ SkillId::FIRE_ARROW, CLOSE },
+			{ SkillId::POISON_BREATH, CLOSE },
+			// Fire/Poison Mage 
+			{ SkillId::EXPLOSION, CLOSE },
+			{ SkillId::POISON_BREATH, CLOSE },
+			{ SkillId::SEAL_FP, CLOSE },
+			{ SkillId::ELEMENT_COMPOSITION_FP, CLOSE },
+			// Fire/Poison Archmage
+			{ SkillId::FIRE_DEMON, CLOSE },
+			{ SkillId::PARALYZE, CLOSE },
+			{ SkillId::BIG_BANG_FP, CLOSE },
+			{ SkillId::METEOR_SHOWER, CLOSE },
+			// Ice/Lightning Wizard
+			{ SkillId::SLOW_IL, CLOSE },
+			{ SkillId::COLD_BEAM, CLOSE },
+			{ SkillId::THUNDER_BOLT, CLOSE },
+			// Ice/Lightning Mage
+			{ SkillId::ICE_SCRIKE, CLOSE },
+			{ SkillId::THUNDER_SPEAR, CLOSE },
+			{ SkillId::SEAL_IL, CLOSE },
+			{ SkillId::ELEMENT_COMPOSITION_IL, CLOSE },
+			// Ice/Lightning Archmage
+			{ SkillId::BIG_BANG_IL, CLOSE },
+			{ SkillId::ICE_DEMON, CLOSE },
+			{ SkillId::CHAIN_LIGHTNING, CLOSE },
+			{ SkillId::BLIZZARD, CLOSE },
+			// Cleric 
+			{ SkillId::HEAL_CLERIC, CLOSE },
+			{ SkillId::HOLY_ARRORW, CLOSE },
+			// Priest
+			{ SkillId::SHINING_RAY, CLOSE },
+			{ SkillId::DOOM, CLOSE },
+			// Bishop
+			{ SkillId::BIG_BANG_BISHOP, CLOSE },
+			{ SkillId::ANGEL_RAY, CLOSE },
+			{ SkillId::GENESIS, CLOSE },
+			//Archer
+			{ SkillId::ARROW_BLOW, CLOSE },
+			{ SkillId::DOUBLE_SHOT, CLOSE },
+			//Hunter
+			{ SkillId::ARROW_BOMB_BOW, CLOSE },
+			{ SkillId::POWER_KNOCK_BACK_HUNTER, CLOSE },
+			//Ranger
+			{ SkillId::INFERNO_BOWMASTER, CLOSE },
+			{ SkillId::STRAFE_RANGER, CLOSE },
+			{ SkillId::ARROW_RAIN, CLOSE },
+			//BowMaster
+			{ SkillId::HURRICANE, CLOSE },
+			{ SkillId::HAMSTRING, CLOSE },
+			{ SkillId::DRAGONS_BREATH_BOWMASTER, CLOSE },
+			//CrossBowman
+			{ SkillId::POWER_KNOCK_BACK_CROSSBOWMAN, CLOSE },
+			{ SkillId::IRON_ARROW_CROSSBOW, CLOSE },
+			//Sniper
+			{ SkillId::BLIZZARD_SNIPER, CLOSE },
+			{ SkillId::ARROW_ERUPTON, CLOSE },
+			{ SkillId::STRAFE_SNIPER, CLOSE },
+			{ SkillId::MORTAL_BLOW_SNIPER, CLOSE },
+			//Marksman
+			{ SkillId::PIERCING_ARROW, CLOSE },
+			{ SkillId::SNIPE, CLOSE },
+			{ SkillId::DRAGONS_BREATH_MARKSMAN, CLOSE },
+			//Rogue
+			{ SkillId::DOUBLE_STAB, CLOSE },
+			{ SkillId::LUCKY_SEVEN, CLOSE },
+			//Assasin
+			{ SkillId::DRAIN, CLOSE },
+			//Hermit
+			{ SkillId::SHADOW_WEB, CLOSE },
+			{ SkillId::SHADOW_MESO, CLOSE },
+			{ SkillId::AVENGER, CLOSE },
+			//Night Lord
+			{ SkillId::TAUNT_NL, CLOSE },
+			{ SkillId::NINJA_AMBUSH_NL, CLOSE },
+			{ SkillId::TRIPLE_THROW,  RANGED },
+			{ SkillId::NINJA_STORM, CLOSE },
+			//Bandit
+			{ SkillId::STEAL, CLOSE },
+			{ SkillId::SAVAGE_BLOW, CLOSE },
+			//Chief Bandit
+			{ SkillId::ASSAULTER, CLOSE },
+			{ SkillId::BAND_OF_THIEVES, CLOSE },
+			{ SkillId::MESO_EXPLOSION, CLOSE },
+			//Shadower
+			{ SkillId::SHADOW_SHIFTER, CLOSE},
+			{ SkillId::ASSASSINATE, CLOSE },
+			{ SkillId::TAUNT_SHADOWER, CLOSE },
+			{ SkillId::NINJA_AMBUSH_SHADOWER, CLOSE },
+			{ SkillId::BOOMERANG_STEP, CLOSE },
+			//Pirate
+			{ SkillId::FLASH_FIST, CLOSE },
+			{ SkillId::SOMMERSAULT_KICK, CLOSE },
+			{ SkillId::DOUBLE_SHOT_PIRATE, CLOSE },
+			//Brawler
+			{ SkillId::BACKSPIN_BLOW, CLOSE },
+			{ SkillId::DOUBLE_UPPERCUT, CLOSE },
+			{ SkillId::CORKSCREW_BLOW, CLOSE }
+			//Marauder
+			//Buccaneer
+			//Gunslinger
+			//Outlaw
+			//Consair
+
+
+
+
+
+
 		};
 
 		auto iter = skill_flags.find(id);
@@ -166,7 +268,7 @@ namespace ms
 
 	bool SkillData::is_attack() const
 	{
-		return !passive && (flags & ATTACK);
+		return !passive && (flags & CLOSE);
 	}
 
 	bool SkillData::is_invisible() const
@@ -183,6 +285,7 @@ namespace ms
 	{
 		return reqweapon;
 	}
+	
 
 	const SkillData::Stats& SkillData::get_stats(int32_t level) const
 	{
@@ -191,7 +294,6 @@ namespace ms
 		if (iter == stats.end())
 		{
 			static constexpr Stats null_stats = Stats(0.0f, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f, 0.0f, 0.0f, Rectangle<int16_t>());
-
 			return null_stats;
 		}
 
