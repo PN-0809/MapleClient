@@ -48,6 +48,7 @@ namespace ms
 		void apply_to(CharStats& stats, nl::node level) const override;
 	};
 
+	
 	template <Weapon::Type...W>
 	// Buff for Mastery skills
 	class WeaponMasteryBuff : public PassiveBuff
@@ -71,7 +72,20 @@ namespace ms
 		bool is_applicable(CharStats& stats, nl::node level) const override;
 		void apply_to(CharStats& stats, nl::node level) const override;
 	};
-
+	// SHIELD_MASTERY
+	
+	// Buff for Mastery skills
+	class ShieldMasteryBuff : public PassiveBuff
+	{
+	public:
+		void apply_to(CharStats& stats, nl::node level) const override;
+	};
+	// Buff resistance
+	class ElementResistanceBuff : public PassiveBuff
+	{
+	public:
+		void apply_to(CharStats& stats, nl::node level) const override;
+	};
 	// Collection of passive buffs
 	class PassiveBuffs
 	{
