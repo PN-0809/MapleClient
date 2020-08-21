@@ -86,14 +86,42 @@ namespace ms
 		float damagepercent = static_cast<float>(level["damage"]) / 100;
 		stats.set_damagepercent(damagepercent);
 	}
+	//SHIELD_MASTERY
+	void ShieldMasteryBuff::apply_to(CharStats& stats, nl::node level) const
+	{
+		stats.add_percent(EquipStat::Id::WDEF, static_cast<float>(level["x"]) /100);
+	}//ADD SHIELD.
+	//ADVANCE_COMBO ATTACK?
+	//ADVANCE_CHARGE
+	//ELEMENT_RESISTANCE
+	void ElementResistanceBuff::apply_to(CharStats& stats, nl::node level) const
+	{
+		//ADD RESISTANCE IN CHARSTATS.CPP
+	}
+	//ELEMENT_AMPLIFICATION
+	//THE BLESSING OF AMAZON
+	//CRITICAL DAMAGE
+	//THE EYES OF AMAZON ??
+	//BOW-CROSSBOW EXPRERT
+	//THURST
+	//NIMBLE BODY BULLET TIME
+	//KEENEYES
+	//ALCHEMIST
+	//SHADOWN SHIFTER
+	//STUNMASTERY
+
+
 
 	PassiveBuffs::PassiveBuffs()
 	{
 		// Beginner
 		buffs[SkillId::Id::ANGEL_BLESSING] = std::make_unique<AngelBlessingBuff>();
 
+		// Warrior
+
 		// Fighter
 		buffs[SkillId::Id::SWORD_MASTERY_FIGHTER] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SWORD_1H, Weapon::Type::SWORD_2H>>();
+		buffs[SkillId::Id::AXE_MASTERY_FIGHTER] = std::make_unique<WeaponMasteryBuff<Weapon::Type::AXE_1H, Weapon::Type::AXE_2H>>();
 
 		// Crusader
 
@@ -101,7 +129,8 @@ namespace ms
 		buffs[SkillId::Id::ACHILLES_HERO] = std::make_unique<AchillesBuff>();
 
 		// Page
-		buffs[SkillId::Id::SWORD_MASTERY_FIGHTER] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SWORD_1H, Weapon::Type::SWORD_2H>>();
+		buffs[SkillId::Id::FA_SWORD_PAGE] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SWORD_1H, Weapon::Type::SWORD_2H>>();
+		buffs[SkillId::Id::BW_MASTERY_PAGE] = std::make_unique<WeaponMasteryBuff<Weapon::Type::MACE_1H, Weapon::Type::MACE_2H>>();
 
 		// White Knight
 
@@ -109,7 +138,8 @@ namespace ms
 		buffs[SkillId::Id::ACHILLES_PALADIN] = std::make_unique<AchillesBuff>();
 
 		// Spearman
-
+		buffs[SkillId::Id::SPEAR_MASTERY_SPEARMAN] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SPEAR>>();
+		buffs[SkillId::Id::PA_MASTERY_SPEARMAN] = std::make_unique<WeaponMasteryBuff<Weapon::Type::POLEARM>>();
 		// Dragon Knight
 
 		// Dark Knight
