@@ -32,13 +32,7 @@ namespace ms
 		return true;
 	}
 
-	void AngelBlessingBuff::apply_to(CharStats& stats, nl::node level) const
-	{
-		stats.add_value(EquipStat::Id::WATK, level["x"]);
-		stats.add_value(EquipStat::Id::MAGIC, level["y"]);
-		stats.add_value(EquipStat::Id::ACC, level["z"]);
-		stats.add_value(EquipStat::Id::AVOID, level["z"]);
-	}
+
 
 	template<Weapon::Type W1, Weapon::Type W2>
 	bool f_is_applicable(CharStats& stats, nl::node level)
@@ -51,13 +45,13 @@ namespace ms
 	{
 		return stats.get_weapontype() == W1;
 	}
-
+	
 	template <Weapon::Type...W>
 	bool WeaponMasteryBuff<W...>::is_applicable(CharStats& stats, nl::node level) const
 	{
 		return f_is_applicable<W...>(stats, level);
 	}
-
+	//Mastery
 	template <Weapon::Type...W>
 	void WeaponMasteryBuff<W...>::apply_to(CharStats& stats, nl::node level) const
 	{
@@ -65,13 +59,23 @@ namespace ms
 		stats.set_mastery(mastery);
 		stats.add_value(EquipStat::Id::ACC, level["x"]);
 	}
+	//Angel Blessing Job 0:
+	void AngelBlessingBuff::apply_to(CharStats& stats, nl::node level) const
+	{
+		stats.add_value(EquipStat::Id::WATK, level["x"]);
+		stats.add_value(EquipStat::Id::MAGIC, level["y"]);
+		stats.add_value(EquipStat::Id::ACC, level["z"]);
+		stats.add_value(EquipStat::Id::AVOID, level["z"]);
+	}
 
+	//Reduce Damage Warrior:
 	void AchillesBuff::apply_to(CharStats& stats, nl::node level) const
 	{
 		float reducedamage = static_cast<float>(level["x"]) / 1000;
 		stats.set_reducedamage(reducedamage);
 	}
 
+	//Berserk Job DK
 	bool BerserkBuff::is_applicable(CharStats& stats, nl::node level) const
 	{
 		float hp_percent = static_cast<float>(level["x"]) / 100;
@@ -80,71 +84,150 @@ namespace ms
 
 		return hp_current <= hp_threshold;
 	}
-
 	void BerserkBuff::apply_to(CharStats& stats, nl::node level) const
 	{
 		float damagepercent = static_cast<float>(level["damage"]) / 100;
 		stats.set_damagepercent(damagepercent);
 	}
-	//SHIELD_MASTERY
+
+	//Shield Mastery Warrior + Shadower
 	void ShieldMasteryBuff::apply_to(CharStats& stats, nl::node level) const
 	{
 		stats.add_percent(EquipStat::Id::WDEF, static_cast<float>(level["x"]) /100);
-	}//ADD SHIELD.
-	//ADVANCE_COMBO ATTACK?
-	//ADVANCE_CHARGE
-	//ELEMENT_RESISTANCE
+	}
+
+	//Element resistance Class Mage:
 	void ElementResistanceBuff::apply_to(CharStats& stats, nl::node level) const
 	{
 		//ADD RESISTANCE IN CHARSTATS.CPP
+		//stats.
 	}
-	//ELEMENT_AMPLIFICATION
-	//THE BLESSING OF AMAZON
-	//CRITICAL DAMAGE
-	//THE EYES OF AMAZON ??
-	//BOW-CROSSBOW EXPRERT
-	//THURST
-	//NIMBLE BODY BULLET TIME
+
+	// Element resistance Class Mage:
+	void ElementamplificationBuff::apply_to(CharStats& stats, nl::node level) const
+	{
+		//stats.add_value(EquipStat::Id::ACC, level["x"]); tao can add them ben charstats
+		stats.add_value(EquipStat::Id::MAGIC, static_cast<float>(level["y"]) / 100);
+	}
+
+	//Nimle Body | Bullet Time (Thief | Pirate)
+	void NimbleBodyBuff::apply_to(CharStats& stats, nl::node level) const
+	{
+		stats.add_value(EquipStat::Id::ACC, level["x"]);
+		stats.add_value(EquipStat::Id::AVOID, level["y"]);
+	}
+
+	//The Blessing of Amazon 
+	void TheBlessingofAmazonBuff::apply_to(CharStats& stats, nl::node level) const
+	{
+		stats.add_value(EquipStat::Id::ACC, level["x"]);
+	}
+
+	//Thrust Class Bow: 
+	void ThrustBuff::apply_to(CharStats& stats, nl::node level) const
+	{
+		stats.add_value(EquipStat::Id::SPEED, level["speed"]);
+	}
+
+	//Bow | CrossBow Expert
+	void BowCrossBowExpertBuff::apply_to(CharStats& stats, nl::node level) const {
+		float mastery = static_cast<float>(level["mastery"]) / 100;
+		stats.set_mastery(mastery);
+		stats.add_value(EquipStat::Id::WATK, level["x"]);
+	}
+	//TODO
 	//KEENEYES
 	//ALCHEMIST
 	//SHADOWN SHIFTER
 	//STUNMASTERY
-
+	//ADD SHIELD.
+	//ADVANCE_COMBO ATTACK?
+	//ADVANCE_CHARGE
+	//CRITICAL DAMAGE
+	//THE EYES OF AMAZON ??
+	//BOW-CROSSBOW EXPRERT
 
 
 	PassiveBuffs::PassiveBuffs()
 	{
 		// Beginner
-		buffs[SkillId::Id::ANGEL_BLESSING] = std::make_unique<AngelBlessingBuff>();
-
+			buffs[SkillId::Id::ANGEL_BLESSING] = std::make_unique<AngelBlessingBuff>();
+		
 		// Warrior
-
 		// Fighter
-		buffs[SkillId::Id::SWORD_MASTERY_FIGHTER] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SWORD_1H, Weapon::Type::SWORD_2H>>();
-		buffs[SkillId::Id::AXE_MASTERY_FIGHTER] = std::make_unique<WeaponMasteryBuff<Weapon::Type::AXE_1H, Weapon::Type::AXE_2H>>();
-
+			buffs[SkillId::Id::SWORD_MASTERY_FIGHTER] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SWORD_1H, Weapon::Type::SWORD_2H>>();
+			buffs[SkillId::Id::AXE_MASTERY_FIGHTER] = std::make_unique<WeaponMasteryBuff<Weapon::Type::AXE_1H, Weapon::Type::AXE_2H>>();
 		// Crusader
-
+			buffs[SkillId::Id::SHIELD_MASTERY_CRUSADER] = std::make_unique<ShieldMasteryBuff>();
 		// Hero
-		buffs[SkillId::Id::ACHILLES_HERO] = std::make_unique<AchillesBuff>();
-
+			buffs[SkillId::Id::ACHILLES_HERO] = std::make_unique<AchillesBuff>();
 		// Page
-		buffs[SkillId::Id::FA_SWORD_PAGE] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SWORD_1H, Weapon::Type::SWORD_2H>>();
-		buffs[SkillId::Id::BW_MASTERY_PAGE] = std::make_unique<WeaponMasteryBuff<Weapon::Type::MACE_1H, Weapon::Type::MACE_2H>>();
-
+			buffs[SkillId::Id::FA_SWORD_PAGE] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SWORD_1H, Weapon::Type::SWORD_2H>>();
+			buffs[SkillId::Id::BW_MASTERY_PAGE] = std::make_unique<WeaponMasteryBuff<Weapon::Type::MACE_1H, Weapon::Type::MACE_2H>>();
 		// White Knight
-
+			//CHARGEDBLOW
+			buffs[SkillId::Id::SHIELD_MASTERY_WHITE_KNIGHT] = std::make_unique<ShieldMasteryBuff>();
 		// Paladin
-		buffs[SkillId::Id::ACHILLES_PALADIN] = std::make_unique<AchillesBuff>();
-
+			buffs[SkillId::Id::ACHILLES_PALADIN] = std::make_unique<AchillesBuff>();
 		// Spearman
-		buffs[SkillId::Id::SPEAR_MASTERY_SPEARMAN] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SPEAR>>();
-		buffs[SkillId::Id::PA_MASTERY_SPEARMAN] = std::make_unique<WeaponMasteryBuff<Weapon::Type::POLEARM>>();
+			buffs[SkillId::Id::SPEAR_MASTERY_SPEARMAN] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SPEAR>>();
+			buffs[SkillId::Id::PA_MASTERY_SPEARMAN] = std::make_unique<WeaponMasteryBuff<Weapon::Type::POLEARM>>();
 		// Dragon Knight
-
 		// Dark Knight
-		buffs[SkillId::Id::ACHILLES_DK] = std::make_unique<AchillesBuff>();
-		buffs[SkillId::Id::BERSERK] = std::make_unique<BerserkBuff>();
+			buffs[SkillId::Id::ACHILLES_DK] = std::make_unique<AchillesBuff>();
+			buffs[SkillId::Id::BERSERK] = std::make_unique<BerserkBuff>();
+		
+		// Magician
+		// Fire/Poison Wizard
+		// Fire/Poison Mage 
+			buffs[SkillId::Id::ELEMENT_AMPLIFICATION_FP] = std::make_unique<ElementamplificationBuff>();
+		// Fire/Poison Archmage
+		// Ice/Lightning Wizard
+		// Ice/Lightning Mage
+			buffs[SkillId::Id::ELEMENT_AMPLIFICATION_IL] = std::make_unique<ElementamplificationBuff>();
+		// Ice/Lightning Archmage
+		// Cleric 
+		// Priest
+		// Bishop
+		
+		// Archer
+			buffs[SkillId::Id::THE_BLESSING_OF_AMAZON] = std::make_unique<TheBlessingofAmazonBuff>();
+		// Hunter
+			buffs[SkillId::Id::BOW_MASTERY] = std::make_unique<WeaponMasteryBuff<Weapon::Type::BOW>>();
+		// Ranger
+			buffs[SkillId::Id::THRUST_BOWMASTER] = std::make_unique<ThrustBuff>();
+		// BowMaster
+			buffs[SkillId::Id::BOW_EXPERT] = std::make_unique<BowCrossBowExpertBuff>();
+		// CrossBowman
+			buffs[SkillId::Id::CROSSBOW_MASTERY] = std::make_unique<WeaponMasteryBuff<Weapon::Type::CROSSBOW>>();
+		// Sniper 
+			buffs[SkillId::Id::THRUST_SNIPER] = std::make_unique<ThrustBuff>();
+		// Marksman
+			buffs[SkillId::Id::MARKSMAN_BOOST] = std::make_unique<BowCrossBowExpertBuff>();
+		
+		// Rogue
+			buffs[SkillId::Id::NIMBLE_BODY] = std::make_unique<NimbleBodyBuff>();
+		// Assasin 
+			buffs[SkillId::Id::CLAW_MASTERY] = std::make_unique<WeaponMasteryBuff<Weapon::Type::CLAW>>();
+		// Hermit
+		// Night Lord
+		// Bandit
+			buffs[SkillId::Id::DAGGER_MASTERY] = std::make_unique<WeaponMasteryBuff<Weapon::Type::DAGGER>>();
+		// Chief Bandit
+			buffs[SkillId::Id::SHIELD_MASTERY] = std::make_unique<ShieldMasteryBuff>();
+		// Shadower
+
+		// Pirate
+			buffs[SkillId::Id::BULLET_TIME] = std::make_unique<NimbleBodyBuff>();
+		// Brawler
+			buffs[SkillId::Id::KNUCKLER_MASTERY] = std::make_unique<WeaponMasteryBuff<Weapon::Type::KNUCKLE>>();
+		// Marauder
+		// Buccaneer
+		// Gunslinger  
+			buffs[SkillId::Id::GUN_MASTERY] = std::make_unique<WeaponMasteryBuff<Weapon::Type::GUN>>();
+		// Outlaw 
+		// Consair 
+		
 	}
 
 	void PassiveBuffs::apply_buff(CharStats& stats, int32_t skill_id, int32_t skill_level) const
