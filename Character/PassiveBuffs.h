@@ -23,7 +23,8 @@
 #include <unordered_map>
 
 namespace ms
-{
+{   //ConditionlessBuff = Multi Use;
+	//PassiveBuff = One;
 	// Interface for passive buffs
 	class PassiveBuff
 	{
@@ -41,16 +42,8 @@ namespace ms
 		bool is_applicable(CharStats& stats, nl::node level) const final override;
 	};
 
-	// Buff for angel blessing/blessing of the spirit
-	class AngelBlessingBuff : public ConditionlessBuff
-	{
-	public:
-		void apply_to(CharStats& stats, nl::node level) const override;
-	};
-
-	
 	template <Weapon::Type...W>
-	// Buff for Mastery skills
+	// //Mastery
 	class WeaponMasteryBuff : public PassiveBuff
 	{
 	public:
@@ -58,34 +51,71 @@ namespace ms
 		void apply_to(CharStats& stats, nl::node level) const override;
 	};
 
-	// Buff for Achilles
+	//Angel Blessing Job 0:
+	class AngelBlessingBuff : public ConditionlessBuff
+	{
+	public:
+		void apply_to(CharStats& stats, nl::node level) const override;
+	};
+
+	//Reduce Damage Class Warrior:
 	class AchillesBuff : public ConditionlessBuff
 	{
 	public:
 		void apply_to(CharStats& stats, nl::node level) const override;
 	};
 
-	// Buff for Berserk
+	//Berserk Job DK
 	class BerserkBuff : public PassiveBuff
 	{
 	public:
 		bool is_applicable(CharStats& stats, nl::node level) const override;
 		void apply_to(CharStats& stats, nl::node level) const override;
 	};
-	// SHIELD_MASTERY
 	
-	// Buff for Mastery skills
-	class ShieldMasteryBuff : public PassiveBuff
+	//Shield Mastery Warrior + Shadower
+	class ShieldMasteryBuff : public ConditionlessBuff
 	{
 	public:
 		void apply_to(CharStats& stats, nl::node level) const override;
 	};
-	// Buff resistance
-	class ElementResistanceBuff : public PassiveBuff
+	// Element resistance Class Mage:
+	class ElementResistanceBuff : public ConditionlessBuff
 	{
 	public:
 		void apply_to(CharStats& stats, nl::node level) const override;
 	};
+	// Element Amplification
+	class ElementamplificationBuff : public ConditionlessBuff
+	{
+	public:
+		void apply_to(CharStats& stats, nl::node level) const override;
+	};
+	//Nimle Body | Bullet Time (Thief | Pirate)
+	class NimbleBodyBuff : public ConditionlessBuff
+	{
+	public:
+		void apply_to(CharStats& stats, nl::node level) const override;
+	};
+	//The Blessing of Amazon 
+	class TheBlessingofAmazonBuff : public ConditionlessBuff
+	{
+	public:
+		void apply_to(CharStats& stats, nl::node level) const override;
+	};
+	//Thrust Class Bow:
+	class ThrustBuff : public ConditionlessBuff
+	{
+	public:
+		void apply_to(CharStats& stats, nl::node level) const override;
+	};
+	//Bow | CrossBow Expert
+	class BowCrossBowExpertBuff : public ConditionlessBuff
+	{
+	public:
+		void apply_to(CharStats& stats, nl::node level) const override;
+	};
+
 	// Collection of passive buffs
 	class PassiveBuffs
 	{
