@@ -181,6 +181,10 @@ namespace ms
 	{
 		percentages[stat] += percent;
 	}
+	void CharStats::add_range(int32_t range)
+	{
+		projectilerange += range;
+	}
 
 	void CharStats::set_weapontype(Weapon::Type w)
 	{
@@ -202,7 +206,7 @@ namespace ms
 		mastery = 0.5f + m;
 	}
 
-	void CharStats::add_damagepercent(float d) 
+	void CharStats::add_damagepercent(float d)
 	{
 		damagepercent += d;
 	}
@@ -215,6 +219,10 @@ namespace ms
 	void CharStats::set_reducedamage(float r)
 	{
 		reducedamage = r;
+	}
+	void CharStats::set_resistance(float re) ///////////
+	{
+		resiststatus = re;
 	}
 
 	void CharStats::change_job(uint16_t id)
@@ -260,6 +268,7 @@ namespace ms
 	{
 		return Rectangle<int16_t>(-projectilerange, -5, -50, 50);
 	}
+
 
 	void CharStats::set_mapid(int32_t id)
 	{
@@ -355,8 +364,8 @@ namespace ms
 	{
 		critical += c;
 	}
-	
-	void CharStats::set_critical(float c) 
+
+	void CharStats::set_critical(float c)
 	{
 		critical = c;
 	}
