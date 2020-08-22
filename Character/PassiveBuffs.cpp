@@ -99,14 +99,14 @@ namespace ms
 	//Element resistance Class Mage:
 	void ElementResistanceBuff::apply_to(CharStats& stats, nl::node level) const
 	{
-		//ADD RESISTANCE IN CHARSTATS.CPP
-		//stats.
+		float resistance= static_cast<float>(level["x"]) / 100;
+		stats.set_resistance(resistance);
 	}
 
 	// Element resistance Class Mage:
 	void ElementamplificationBuff::apply_to(CharStats& stats, nl::node level) const
-	{
-		//stats.add_value(EquipStat::Id::ACC, level["x"]); tao can add them ben charstats
+	{	
+		//SU DUNG MANA THEM X% THEO SKILL! UNHANDLED
 		stats.add_value(EquipStat::Id::MAGIC, static_cast<float>(level["y"]) / 100);
 	}
 
@@ -133,19 +133,29 @@ namespace ms
 	void BowCrossBowExpertBuff::apply_to(CharStats& stats, nl::node level) const {
 		float mastery = static_cast<float>(level["mastery"]) / 100;
 		stats.set_mastery(mastery);
-		stats.add_value(EquipStat::Id::WATK, level["x"]);
 	}
+
+	//Advance Charge
+	void AdvanceChargeBuff::apply_to(CharStats& stats, nl::node level) const {
+		//ADD damage vao 1 skil job 3 khi su dung skill do
+	}
+	//Improve Range
+	void ImproveRangeBuff::apply_to(CharStats& stats, nl::node level) const {
+		int32_t range = static_cast<int32_t>(level["range"]);
+		stats.add_range(range);
+	}
+	//
+
+
 	//TODO
-	//KEENEYES
+
 	//ALCHEMIST
-	//SHADOWN SHIFTER
-	//STUNMASTERY
-	//ADD SHIELD.
-	//ADVANCE_COMBO ATTACK?
-	//ADVANCE_CHARGE
-	//CRITICAL DAMAGE
-	//THE EYES OF AMAZON ??
-	//BOW-CROSSBOW EXPRERT
+	//SHADOWN SHIFTER | Guardian -> khi mob attack chinh minh thi co chance co hoi block
+	//STUN MASTERY -> khi attack mob co x% ti le tang damage
+	//CRITICAL DAMAGE CUA ARCHER -> add th
+	//ADVANCE_COMBO ATTACK? Unhandel Combo Attack
+
+	//MP EATER THEO CHANCE
 
 
 	PassiveBuffs::PassiveBuffs()
@@ -173,6 +183,7 @@ namespace ms
 			buffs[SkillId::Id::SPEAR_MASTERY_SPEARMAN] = std::make_unique<WeaponMasteryBuff<Weapon::Type::SPEAR>>();
 			buffs[SkillId::Id::PA_MASTERY_SPEARMAN] = std::make_unique<WeaponMasteryBuff<Weapon::Type::POLEARM>>();
 		// Dragon Knight
+			buffs[SkillId::Id::ELEMENTAL_RESISTANCE_DK] = std::make_unique<ElementResistanceBuff>();
 		// Dark Knight
 			buffs[SkillId::Id::ACHILLES_DK] = std::make_unique<AchillesBuff>();
 			buffs[SkillId::Id::BERSERK] = std::make_unique<BerserkBuff>();
@@ -180,18 +191,22 @@ namespace ms
 		// Magician
 		// Fire/Poison Wizard
 		// Fire/Poison Mage 
+			buffs[SkillId::Id::PARTIAL_RESISTANCE_FP] = std::make_unique<ElementResistanceBuff>();
 			buffs[SkillId::Id::ELEMENT_AMPLIFICATION_FP] = std::make_unique<ElementamplificationBuff>();
 		// Fire/Poison Archmage
 		// Ice/Lightning Wizard
 		// Ice/Lightning Mage
+			buffs[SkillId::Id::PARTIAL_RESISTANCE_FP] = std::make_unique<ElementResistanceBuff>();
 			buffs[SkillId::Id::ELEMENT_AMPLIFICATION_IL] = std::make_unique<ElementamplificationBuff>();
 		// Ice/Lightning Archmage
 		// Cleric 
 		// Priest
+			buffs[SkillId::Id::ELEMENTAL_RESISTANCE_PRIEST] = std::make_unique<ElementResistanceBuff>();
 		// Bishop
 		
 		// Archer
 			buffs[SkillId::Id::THE_BLESSING_OF_AMAZON] = std::make_unique<TheBlessingofAmazonBuff>();
+			buffs[SkillId::Id::THE_EYE_OF_AMAZON] = std::make_unique<ImproveRangeBuff>();
 		// Hunter
 			buffs[SkillId::Id::BOW_MASTERY] = std::make_unique<WeaponMasteryBuff<Weapon::Type::BOW>>();
 		// Ranger
@@ -207,6 +222,7 @@ namespace ms
 		
 		// Rogue
 			buffs[SkillId::Id::NIMBLE_BODY] = std::make_unique<NimbleBodyBuff>();
+			buffs[SkillId::Id::KEEN_EYES] = std::make_unique<ImproveRangeBuff>();
 		// Assasin 
 			buffs[SkillId::Id::CLAW_MASTERY] = std::make_unique<WeaponMasteryBuff<Weapon::Type::CLAW>>();
 		// Hermit
