@@ -45,6 +45,7 @@ namespace ms
 		void add_damagepercent(float damagepercent);
 		void set_damagepercent(float damagepercent);
 		void set_reducedamage(float reducedamage);
+		void add_range(int32_t projectilerange);
 
 		void change_job(uint16_t id);
 
@@ -84,6 +85,7 @@ namespace ms
 		float get_ignoredef() const;
 		void set_stance(float stance);
 		float get_stance() const;
+		void set_resistance(float resistance); ////
 		float get_resistance() const;
 		int32_t get_maxdamage() const;
 		int32_t get_mindamage() const;
