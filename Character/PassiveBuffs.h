@@ -115,6 +115,18 @@ namespace ms
 	public:
 		void apply_to(CharStats& stats, nl::node level) const override;
 	};
+	//Advance Charge
+	class AdvanceChargeBuff : public PassiveBuff
+	{
+	public:
+		void apply_to(CharStats& stats, nl::node level) const override;
+	};
+	//Improve Range
+	class ImproveRangeBuff : public ConditionlessBuff
+	{
+	public:
+		void apply_to(CharStats& stats, nl::node level) const override;
+	};
 
 	// Collection of passive buffs
 	class PassiveBuffs
