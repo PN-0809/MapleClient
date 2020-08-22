@@ -42,6 +42,7 @@ namespace ms
 		void set_exp(int64_t exp);
 		void set_portal(uint8_t portal);
 		void set_mastery(float mastery);
+		void add_damagepercent(float damagepercent);
 		void set_damagepercent(float damagepercent);
 		void set_reducedamage(float reducedamage);
 
@@ -73,6 +74,8 @@ namespace ms
 		const std::string& get_jobname() const;
 		Weapon::Type get_weapontype() const;
 		float get_mastery() const;
+		void add_critical(float c);
+		void set_critical(float c);
 		float get_critical() const;
 		float get_mincrit() const;
 		float get_maxcrit() const;

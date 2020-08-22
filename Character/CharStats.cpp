@@ -76,8 +76,16 @@ namespace ms
 
 		int32_t primary = get_primary_stat();
 		int32_t secondary = get_secondary_stat();
-		int32_t attack = get_total(EquipStat::Id::WATK);
-		float multiplier = damagepercent + static_cast<float>(attack) / 100;
+		int32_t attack = 0;
+		if (weapontype == Weapon::Type::WAND || weapontype == Weapon::Type::STAFF) {
+			attack = get_total(EquipStat::Id::MAGIC);
+		}
+		else {
+			attack = get_total(EquipStat::Id::WATK);
+		}
+		float multiplier = damagepercent + static_cast<float>(attack) / 10;
+
+		// Calculate Damage in range:
 		maxdamage = static_cast<int32_t>((primary + secondary) * multiplier);
 		mindamage = static_cast<int32_t>(((primary * 0.9f * mastery) + secondary) * multiplier);
 	}
@@ -192,6 +200,11 @@ namespace ms
 	void CharStats::set_mastery(float m)
 	{
 		mastery = 0.5f + m;
+	}
+
+	void CharStats::add_damagepercent(float d) 
+	{
+		damagepercent += d;
 	}
 
 	void CharStats::set_damagepercent(float d)
@@ -336,6 +349,16 @@ namespace ms
 	float CharStats::get_mastery() const
 	{
 		return mastery;
+	}
+
+	void CharStats::add_critical(float c)
+	{
+		critical += c;
+	}
+	
+	void CharStats::set_critical(float c) 
+	{
+		critical = c;
 	}
 
 	float CharStats::get_critical() const
