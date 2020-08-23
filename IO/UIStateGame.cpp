@@ -43,7 +43,7 @@
 
 namespace ms
 {
-	UIStateGame::UIStateGame() : stats(Stage::get().get_player().get_stats()), dragged(nullptr)
+	UIStateGame::UIStateGame(uint8_t channel_count) : stats(Stage::get().get_player().get_stats()), dragged(nullptr)
 	{
 		focused = UIElement::Type::NONE;
 		tooltipparent = Tooltip::Parent::NONE;
@@ -52,7 +52,7 @@ namespace ms
 		const Inventory& inventory = Stage::get().get_player().get_inventory();
 
 		emplace<UIStatusMessenger>();
-		emplace<UIStatusBar>(stats);
+		emplace<UIStatusBar>(stats, channel_count);
 		emplace<UIChatBar>();
 		emplace<UIMiniMap>(stats);
 		emplace<UIBuffList>();
@@ -94,7 +94,7 @@ namespace ms
 			UI::get().remove(UIElement::Type::STATUSBAR);
 
 			const CharStats& stats = Stage::get().get_player().get_stats();
-			emplace<UIStatusBar>(stats);
+			emplace<UIStatusBar>(stats, channel_count);
 		}
 
 		for (auto& type : elementorder)
@@ -343,7 +343,7 @@ namespace ms
 							}
 							case KeyAction::Id::CHANGECHANNEL:
 							{
-								emplace<UIChannel>();
+								emplace<UIChannel>(Stage::get().get_player().get_world_id(), Stage::get().get_player().get_channel_id(), channel_count);
 								break;
 							}
 							case KeyAction::Id::MAINMENU:

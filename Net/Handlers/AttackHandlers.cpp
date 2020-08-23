@@ -29,29 +29,23 @@ namespace ms
 
 	void AttackHandler::handle(InPacket& recv) const
 	{
-		int32_t cid = recv.read_int();
-		uint8_t count = recv.read_byte();
-
-		recv.skip(1);
-
 		AttackResult attack;
+
+		int32_t cid = recv.read_int();
+		uint8_t numAttackedAndDamage = recv.read_byte();
+		attack.hitcount = numAttackedAndDamage & 0xF;
+		attack.mobcount = (numAttackedAndDamage >> 4) & 0xF;
+		recv.skip(1);
 		attack.type = type;
 		attack.attacker = cid;
-
 		attack.level = recv.read_byte();
 		attack.skill = (attack.level > 0) ? recv.read_int() : 0;
-
 		attack.display = recv.read_byte();
 		attack.toleft = recv.read_bool();
 		attack.stance = recv.read_byte();
 		attack.speed = recv.read_byte();
-
 		recv.skip(1);
-
 		attack.bullet = recv.read_int();
-
-		attack.mobcount = (count >> 4) & 0xF;
-		attack.hitcount = count & 0xF;
 
 		for (uint8_t i = 0; i < attack.mobcount; i++)
 		{

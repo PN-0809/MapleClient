@@ -185,9 +185,14 @@ namespace ms
 			attack.fixdamage = stats.fixdamage;
 			attack.damagetype = Attack::DMG_FIXED;
 		}
-		else if (stats.matk)
+		else if (stats.PAD)
 		{
-			attack.matk += stats.matk;
+			attack.PAD += stats.PAD;
+			attack.damagetype = Attack::DMG_WEAPON;
+		}
+		else if (stats.MAD)
+		{
+			attack.MAD += stats.MAD;
 			attack.damagetype = Attack::DMG_MAGIC;
 		}
 		else

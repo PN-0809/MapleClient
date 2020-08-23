@@ -836,9 +836,9 @@ namespace ms
 
 		bool character_found = false;
 
-		for (int8_t i = PAGESIZE - 1; i >= 0; i--)
+		for (int i = PAGESIZE - 1; i >= 0; i--)
 		{
-			uint8_t index = i + selected_page * PAGESIZE;
+			int index = i + selected_page * PAGESIZE;
 
 			if (index < characters_count)
 			{

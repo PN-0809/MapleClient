@@ -47,7 +47,7 @@
 
 namespace ms
 {
-	UIStatusBar::UIStatusBar(const CharStats& st) : stats(st)
+	UIStatusBar::UIStatusBar(const CharStats& st, uint8_t channel_count) : stats(st), channel_count(channel_count)
 	{
 		quickslot_active = false;
 		quickslot_adj = Point<int16_t>(QUICKSLOT_MAX, 0);
@@ -499,7 +499,7 @@ namespace ms
 	{
 		UIElement::update();
 
-		for each (auto sprite in hpmp_sprites)
+		for (auto &sprite : hpmp_sprites)
 			sprite.update();
 
 		expbar.update(getexppercent());
@@ -606,7 +606,7 @@ namespace ms
 			remove_menus();
 			break;
 		case Buttons::BT_SETTING_CHANNEL:
-			UI::get().emplace<UIChannel>();
+			UI::get().emplace<UIChannel>(Stage::get().get_player().get_world_id(), Stage::get().get_player().get_channel_id(), channel_count);
 
 			remove_menus();
 			break;

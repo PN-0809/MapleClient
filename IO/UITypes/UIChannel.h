@@ -30,7 +30,7 @@ namespace ms
 		static constexpr bool FOCUSED = false;
 		static constexpr bool TOGGLED = true;
 
-		UIChannel();
+		UIChannel(uint8_t wid, uint8_t ch, uint8_t ch_count);
 
 		void draw(float inter) const override;
 		void update() override;
@@ -53,11 +53,19 @@ namespace ms
 			CANCEL,
 			CHANGE,
 			CH
+		};    
+		
+		struct OldState {
+			int8_t current_channel_;
+			int16_t current_channel_x_;
+			int16_t current_channel_y_;
 		};
 
-		uint8_t current_channel;
-		uint8_t selected_channel;
-		uint8_t channel_count;
+		OldState old_state;
+
+		int8_t current_channel;
+		int8_t selected_channel;
+		int8_t channel_count;
 		BoolPair<Texture> channel;
 		std::vector<Sprite> ch;
 		int16_t current_channel_x;

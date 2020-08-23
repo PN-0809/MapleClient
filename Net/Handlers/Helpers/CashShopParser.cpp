@@ -64,18 +64,17 @@ namespace ms
 
 		StatsEntry parseCharStats(InPacket& recv)
 		{
-			int32_t dwCharacterID = recv.read_int(); // character id
-
-			// TODO: This is similar to LoginParser.cpp, try and merge these.
+			// TODO: This is similar to CashShopParser.cpp, try and merge these.
 			StatsEntry statsEntry;
 
 			statsEntry.name = recv.read_padded_string(13);
-			statsEntry.female = recv.read_bool();
+			statsEntry.female = recv.read_bool(); // 0 = male, 1 = female
 			statsEntry.stats[MapleStat::Id::SKIN] = recv.read_byte();	// skin color
 			statsEntry.stats[MapleStat::Id::FACE] = recv.read_int();	// face
 			statsEntry.stats[MapleStat::Id::HAIR] = recv.read_int();	// hair
-			for (size_t i = 0; i < 3; i++)
+			for (size_t i = 0; i < 3; i++) {
 				statsEntry.petids.push_back(recv.read_long());
+			}
 			statsEntry.stats[MapleStat::Id::LEVEL] = recv.read_short();
 			statsEntry.stats[MapleStat::Id::JOB] = recv.read_short();
 			statsEntry.stats[MapleStat::Id::STR] = recv.read_short();
@@ -87,12 +86,12 @@ namespace ms
 			statsEntry.mp = recv.read_int();
 			statsEntry.maxmp = recv.read_int();
 			statsEntry.stats[MapleStat::Id::AP] = recv.read_short();
-			statsEntry.stats[MapleStat::Id::SP] = recv.read_short(); 
+			statsEntry.stats[MapleStat::Id::SP] = recv.read_short();
 			statsEntry.exp = recv.read_int();
 			statsEntry.stats[MapleStat::Id::FAME] = recv.read_short();
 			statsEntry.termexp = recv.read_int(); // TermEXP
-			statsEntry.mapid = recv.read_int();
-			statsEntry.portal = recv.read_byte();
+			statsEntry.mapid = recv.read_int(); // dwPosMap
+			statsEntry.portal = recv.read_byte(); // Portal
 			statsEntry.playTime = recv.read_int(); // Playtime
 
 			return statsEntry;

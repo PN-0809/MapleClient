@@ -134,6 +134,8 @@ namespace ms
 		update_all_stats();
 		update_stat(MapleStat::Id::JOB);
 		update_stat(MapleStat::Id::FAME);
+		update_stat(MapleStat::Id::HP);
+		update_stat(MapleStat::Id::MP);
 
 		dimension = Point<int16_t>(212, 318);
 		showdetail = false;
@@ -215,13 +217,6 @@ namespace ms
 		update_basevstotal(StatLabel::INT, MapleStat::Id::INT, EquipStat::Id::INT);
 		update_basevstotal(StatLabel::LUK, MapleStat::Id::LUK, EquipStat::Id::LUK);
 
-		statlabels[StatLabel::DAMAGE].change_text(std::to_string(stats.get_mindamage()) + " ~ " + std::to_string(stats.get_maxdamage()));
-
-		if (stats.is_damage_buffed())
-			statlabels[StatLabel::DAMAGE].change_color(Color::Name::RED);
-		else
-			statlabels[StatLabel::DAMAGE].change_color(Color::Name::EMPEROR);
-
 		statlabels[StatLabel::DAMAGE_DETAILED].change_text(std::to_string(stats.get_mindamage()) + " ~ " + std::to_string(stats.get_maxdamage()));
 		statlabels[StatLabel::DAMAGE_BONUS].change_text("0%");
 		statlabels[StatLabel::BOSS_DAMAGE].change_text(std::to_string(static_cast<int32_t>(stats.get_bossdmg() * 100)) + "%");
@@ -237,6 +232,13 @@ namespace ms
 		statlabels[StatLabel::SPEED].change_text(std::to_string(stats.get_total(EquipStat::Id::SPEED)) + "%");
 		statlabels[StatLabel::JUMP].change_text(std::to_string(stats.get_total(EquipStat::Id::JUMP)) + "%");
 		statlabels[StatLabel::HONOR].change_text(std::to_string(stats.get_honor()));
+
+		statlabels[StatLabel::DAMAGE].change_text(std::to_string(stats.get_mindamage()) + " ~ " + std::to_string(stats.get_maxdamage()));
+
+		if (stats.is_damage_buffed())
+			statlabels[StatLabel::DAMAGE].change_color(Color::Name::RED);
+		else
+			statlabels[StatLabel::DAMAGE].change_color(Color::Name::EMPEROR);
 	}
 
 	void UIStatsInfo::update_stat(MapleStat::Id stat)
@@ -248,6 +250,12 @@ namespace ms
 				break;
 			case MapleStat::Id::FAME:
 				update_simple(StatLabel::FAME, MapleStat::Id::FAME);
+				break;
+			case MapleStat::Id::HP:
+				statlabels[StatLabel::HP].change_text(std::to_string(stats.get_hp()) + " / " + std::to_string(stats.get_maxhp()));
+				break;
+			case MapleStat::Id::MP:
+				statlabels[StatLabel::MP].change_text(std::to_string(stats.get_mp()) + " / " + std::to_string(stats.get_maxmp()));
 				break;
 		}
 	}

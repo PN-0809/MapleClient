@@ -32,7 +32,14 @@ namespace ms
 		struct Stats
 		{
 			float damage;
-			int32_t matk;
+			int32_t PAD;
+			int32_t MAD;
+			int32_t PDD;
+			int32_t MDD;
+			int32_t ACC;
+			int32_t EVA;
+			int32_t Speed;
+			int32_t Jump;
 			int32_t fixdamage;
 			int32_t mastery;
 			uint8_t attackcount;
@@ -47,7 +54,49 @@ namespace ms
 			float hrange;
 			Rectangle<int16_t> range;
 
-			constexpr Stats(float damage, int32_t matk, int32_t fixdamage, int32_t mastery, uint8_t attackcount, uint8_t mobcount, uint8_t bulletcount, int16_t bulletcost, int32_t hpcost, int32_t mpcost, float chance, float critical, float ignoredef, float hrange, Rectangle<int16_t> range) : damage(damage), matk(matk), fixdamage(fixdamage), mastery(mastery), attackcount(attackcount), mobcount(mobcount), bulletcount(bulletcount), bulletcost(bulletcost), hpcost(hpcost), mpcost(mpcost), chance(chance), critical(critical), ignoredef(ignoredef), hrange(hrange), range(range) {}
+			constexpr Stats(float damage,
+				int32_t PAD,
+				int32_t MAD,
+				int32_t PDD,
+				int32_t MDD,
+				int32_t ACC,
+				int32_t EVA,
+				int32_t Speed,
+				int32_t Jump, 
+				int32_t fixdamage, 
+				int32_t mastery, 
+				uint8_t attackcount, 
+				uint8_t mobcount, 
+				uint8_t bulletcount, 
+				int16_t bulletcost, 
+				int32_t hpcost, 
+				int32_t mpcost,
+				float chance, 
+				float critical, 
+				float ignoredef, 
+				float hrange, 
+				Rectangle<int16_t> range) : damage(damage), 
+				PAD(PAD),
+				MAD(MAD),
+				PDD(PDD),
+				MDD(MDD),
+				ACC(ACC),
+				EVA(EVA),
+				Speed(Speed),
+				Jump(Jump),
+				fixdamage(fixdamage), 
+				mastery(mastery), 
+				attackcount(attackcount), 
+				mobcount(mobcount), 
+				bulletcount(bulletcount), 
+				bulletcost(bulletcost), 
+				hpcost(hpcost), 
+				mpcost(mpcost), 
+				chance(chance), 
+				critical(critical), 
+				ignoredef(ignoredef), 
+				hrange(hrange), 
+				range(range) {}
 		};
 
 		// Skill flags, unfortunately these just have to be hard-coded

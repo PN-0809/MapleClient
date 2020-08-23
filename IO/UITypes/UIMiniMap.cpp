@@ -589,7 +589,7 @@ namespace ms
 		/// Player
 		Point<int16_t> player_pos = Stage::get().get_player().get_position();
 		sprite_offset = player_marker.get_dimensions() / Point<int16_t>(2, 0);
-		player_marker.draw(((player_pos + center_offset)+ 100) / scale - sprite_offset + Point<int16_t>(map_draw_origin_x, map_draw_origin_y) + init_pos, alpha);
+		player_marker.draw(((player_pos + center_offset) + 100) / scale - sprite_offset + Point<int16_t>(map_draw_origin_x, map_draw_origin_y) + init_pos, alpha);
 	}
 
 	void UIMiniMap::update_static_markers()

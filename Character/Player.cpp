@@ -62,7 +62,7 @@ namespace ms
 		}
 	}
 
-	Player::Player(const CharEntry& entry) : Char(entry.id, entry.look, entry.stats.name), stats(entry.stats)
+	Player::Player(const CharEntry& entry, uint8_t wid, uint8_t channel_id) : Char(entry.id, entry.look, entry.stats.name), stats(entry.stats), wid(wid), channel_id(channel_id)
 	{
 		attacking = false;
 		underwater = false;
@@ -91,6 +91,18 @@ namespace ms
 			pst->send_action(*this, action, down);
 
 		keysdown[action] = down;
+	}
+
+	uint8_t Player::get_world_id() const {
+		return wid;
+	}
+
+	void Player::set_channel_id(uint8_t ch) {
+		channel_id = ch;
+	}
+
+	uint8_t Player::get_channel_id() const {
+		return channel_id;
 	}
 
 	void Player::recalc_stats(bool equipchanged)
@@ -535,5 +547,10 @@ namespace ms
 	Optional<const Ladder> Player::get_ladder() const
 	{
 		return ladder;
+	}
+
+	CalcDamage& Player::get_calcdamage() 
+	{
+		return calcdamage;
 	}
 }

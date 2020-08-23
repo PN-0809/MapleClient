@@ -15,54 +15,32 @@
 //	You should have received a copy of the GNU Affero General Public License	//
 //	along with this program.  If not, see <https://www.gnu.org/licenses/>.		//
 //////////////////////////////////////////////////////////////////////////////////
-#pragma once
-
-#include "../UIElement.h"
-
-#include "../Components/IconCover.h"
+#include "Rand32.h"
 
 namespace ms
 {
-	class BuffIcon
+	Rand32::Rand32() {}
+
+	int64_t Rand32::random() {
+		int32_t v3;
+		int32_t v4;
+		int32_t v5;
+
+		v3 = ((client_seed1 & 0xFFFFFFFE) << 12) ^ ((client_seed1 & 0x7FFC0 ^ (client_seed1 >> 13)) >> 6);
+		v4 = 16 * (client_seed2 & 0xFFFFFFF8) ^ (((client_seed2 >> 2) ^ client_seed2 & 0x3F800000) >> 23);
+		v5 = ((client_seed3 & 0xFFFFFFF0) << 17) ^ (((client_seed3 >> 3) ^ client_seed3 & 0x1FFFFF00) >> 8);
+
+		client_seed3 = v5;
+		client_seed1 = v3;
+		client_seed2 = v4;
+
+		return (client_seed1 ^ client_seed2 ^ client_seed3) & 0xFFFFFFFFL;
+	}
+
+	void Rand32::set_seed(int32_t server_seed1, int32_t server_seed2, int32_t server_seed3)
 	{
-	public:
-		BuffIcon(int32_t buff, int32_t dur);
-
-		void draw(Point<int16_t> position, float alpha) const;
-		bool update();
-
-	private:
-		static const uint16_t FLASH_TIME = 3'000;
-
-		Texture icon;
-		IconCover cover;
-		int32_t buffid;
-		int32_t duration;
-		Linear<float> opacity;
-		float opcstep;
-	};
-
-
-	class UIBuffList : public UIElement
-	{
-	public:
-		static constexpr Type TYPE = UIElement::Type::BUFFLIST;
-		static constexpr bool FOCUSED = true;
-		static constexpr bool TOGGLED = true;
-
-		UIBuffList();
-
-		void draw(float inter) const override;
-		void update() override;
-		void update_screen(int16_t new_width, int16_t new_height) override;
-
-		Cursor::State send_cursor(bool pressed, Point<int16_t> position) override;
-
-		UIElement::Type get_type() const override;
-
-		void add_buff(int32_t buffid, int32_t duration);
-
-	private:
-		std::unordered_map<int32_t, BuffIcon> icons;
-	};
+		client_seed1 = server_seed1;
+		client_seed2 = server_seed2;
+		client_seed3 = server_seed3;
+	}
 }

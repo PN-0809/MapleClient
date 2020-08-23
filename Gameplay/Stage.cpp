@@ -57,9 +57,9 @@ namespace ms
 		state = State::ACTIVE;
 	}
 
-	void Stage::loadplayer(const CharEntry& entry)
+	void Stage::loadplayer(const CharEntry& entry, uint8_t wid, uint8_t channel_id)
 	{
-		player = entry;
+		player = Player(entry, wid, channel_id);
 		playable = player;
 
 		start = ContinuousTimer::get().start();
@@ -367,5 +367,20 @@ namespace ms
 
 		if (Configuration::get().get_admin())
 			AdminEnterMapPacket(AdminEnterMapPacket::Operation::ALERT_ADMINS).dispatch();
+	}
+
+	void Stage::clear_channel_objects() {
+		chars.clear();
+		mobs.clear();
+		drops.clear();
+		reactors.clear();
+	}
+
+	void Stage::change_channel(uint8_t ch) {
+		UI::get().disable();
+		GraphicsGL::get().lock();
+		ChangeChannelPacket(ch).dispatch();
+		player.set_channel_id(ch);
+		state = State::TRANSITION;
 	}
 }

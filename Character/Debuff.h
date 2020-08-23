@@ -17,52 +17,42 @@
 //////////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "../UIElement.h"
-
-#include "../Components/IconCover.h"
+#include <cstdint>
+#include <unordered_map>
 
 namespace ms
 {
-	class BuffIcon
+	namespace Debuffstat
 	{
-	public:
-		BuffIcon(int32_t buff, int32_t dur);
+		enum Id
+		{
+			NULL_,
+			SLOW,
+			SEDUCE,
+			FISHABLE,
+			ZOMBIFY,
+			CONFUSE,
+			STUN,
+			POISON,
+			SEAL,
+			DARKNESS,
+			WEAKEN,
+			CURSE
+		};
 
-		void draw(Point<int16_t> position, float alpha) const;
-		bool update();
+		extern const std::unordered_map<Id, uint64_t> first_codes;
+		extern const std::unordered_map<Id, uint64_t> second_codes;
+	}
 
-	private:
-		static const uint16_t FLASH_TIME = 3'000;
-
-		Texture icon;
-		IconCover cover;
-		int32_t buffid;
+	struct Debuff
+	{
+		Debuffstat::Id stat;
+		int16_t value;
+		int16_t skillid;
+		int16_t skilllevel;
 		int32_t duration;
-		Linear<float> opacity;
-		float opcstep;
-	};
 
-
-	class UIBuffList : public UIElement
-	{
-	public:
-		static constexpr Type TYPE = UIElement::Type::BUFFLIST;
-		static constexpr bool FOCUSED = true;
-		static constexpr bool TOGGLED = true;
-
-		UIBuffList();
-
-		void draw(float inter) const override;
-		void update() override;
-		void update_screen(int16_t new_width, int16_t new_height) override;
-
-		Cursor::State send_cursor(bool pressed, Point<int16_t> position) override;
-
-		UIElement::Type get_type() const override;
-
-		void add_buff(int32_t buffid, int32_t duration);
-
-	private:
-		std::unordered_map<int32_t, BuffIcon> icons;
+		constexpr Debuff(Debuffstat::Id stat, int16_t value, int16_t skillid, int16_t skilllevel, int32_t duration) : stat(stat), value(value), skillid(skillid), skilllevel(skilllevel), duration(duration) {}
+		constexpr Debuff() : Debuff(Debuffstat::Id::NULL_, 0, 0, 0, 0) {}
 	};
 }

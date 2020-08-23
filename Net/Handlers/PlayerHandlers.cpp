@@ -26,6 +26,7 @@
 #include "../../IO/UITypes/UICashShop.h"
 #include "../../IO/UITypes/UISkillBook.h"
 #include "../../IO/UITypes/UIStatsInfo.h"
+#include "../../IO/Window.h"
 
 namespace ms
 {
@@ -35,8 +36,21 @@ namespace ms
 
 		auto cashshop = UI::get().get_element<UICashShop>();
 
-		if (cashshop)
+		if (cashshop) {
 			cashshop->exit_cashshop();
+		}
+		 else {
+		 Player &player = Stage::get().get_player();
+		 int32_t mapid = player.get_stats().get_mapid();
+		 uint8_t portalid = player.get_stats().get_portal();
+
+		 float fadestep = 0.025f;
+
+		 Window::get().fadeout(fadestep, [mapid, portalid]() { GraphicsGL::get().clear(); Stage::get().load(mapid, portalid); UI::get().enable(); GraphicsGL::get().unlock(); });
+
+		 GraphicsGL::get().lock();
+		 Stage::get().clear_channel_objects();
+		 }
 	}
 
 	void ChangeStatsHandler::handle(InPacket& recv) const
@@ -154,37 +168,82 @@ namespace ms
 
 	void BuffHandler::handle(InPacket& recv) const
 	{
+		bool special = false;
+		bool ismovementaffectingstat = false;
 		uint64_t firstmask = recv.read_long();
 		uint64_t secondmask = recv.read_long();
 
-		switch (secondmask)
-		{
-		case Buffstat::BATTLESHIP:
+		if (secondmask == Buffstat::BATTLESHIP) {
 			handle_buff(recv, Buffstat::BATTLESHIP);
 			return;
 		}
 
-		for (auto& iter : Buffstat::first_codes)
-			if (firstmask & iter.second)
+		for (const auto& iter : Buffstat::first_codes) {
+			if (iter.first == Buffstat::MONSTER_RIDING
+				|| Buffstat::DASH
+				|| Buffstat::DASH2) {
+				ismovementaffectingstat = true;
+			}
+			if (firstmask & iter.second) {
+				if (iter.first == Buffstat::SPEED_INFUSION
+					|| iter.first == Buffstat::DASH
+					|| iter.first == Buffstat::DASH2) {
+					recv.read_short();
+					special = true;
+				}
 				handle_buff(recv, iter.first);
+			}
+		}
 
-		for (auto& iter : Buffstat::second_codes)
-			if (secondmask & iter.second)
-				handle_buff(recv, iter.first);
+		for (const auto& iter : Buffstat::second_codes) {
+			if (iter.first == Buffstat::SPEED
+				|| Buffstat::JUMP
+				|| Buffstat::SEAL
+				|| Buffstat::STUN
+				|| Buffstat::WEAKEN
+				|| Buffstat::MORPH
+				|| Buffstat::GHOST_MORPH
+				|| Buffstat::CURSE) {
+				ismovementaffectingstat = true;
+			}
+			if (secondmask & iter.second) {
+				handle_buff(recv, iter.first);				
+			}
+		}
+
+		if (special) {
+			recv.skip(3);
+		}
+		else {
+			uint8_t defenseatt = recv.read_byte();
+			uint8_t defensestate = recv.read_byte();
+			uint16_t delay = recv.read_short();
+			if (ismovementaffectingstat)
+				recv.skip(1);
+		}
 
 		Stage::get().get_player().recalc_stats(false);
 	}
 
 	void ApplyBuffHandler::handle_buff(InPacket& recv, Buffstat::Id bs) const
 	{
+		Player& player = Stage::get().get_player();
+		if (player.has_buff(bs)) {
+			Stage::get().get_player().cancel_buff(bs);
+		}
 		int16_t value = recv.read_short();
 		int32_t skillid = recv.read_int();
+		if (bs == Buffstat::SPEED_INFUSION
+			|| bs == Buffstat::DASH
+			|| bs == Buffstat::DASH2)
+			recv.skip(bs == Buffstat::SPEED_INFUSION ? 10 : 5);
 		int32_t duration = recv.read_int();
 
-		Stage::get().get_player().give_buff({ bs, value, skillid, duration });
+		player.give_buff({ bs, value, skillid, duration });
 
-		if (auto bufflist = UI::get().get_element<UIBuffList>())
+		if (auto bufflist = UI::get().get_element<UIBuffList>()) {
 			bufflist->add_buff(skillid, duration);
+		}		
 	}
 
 	void CancelBuffHandler::handle_buff(InPacket&, Buffstat::Id bs) const

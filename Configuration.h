@@ -236,7 +236,7 @@ namespace ms
 		const char* RESETPIC = "https://www.nexon.com/account/en/login";
 		const char* CHARGENX = "https://billing.nexon.net/PurchaseNX";
 		const bool SHOW_FPS = false;
-		const bool SHOW_PACKETS = true;
+		const bool SHOW_PACKETS = false;
 		const bool AUTO_LOGIN = false;
 		const uint8_t auto_world = 0;
 		const uint8_t auto_channel = 0;

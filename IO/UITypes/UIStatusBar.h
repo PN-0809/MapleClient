@@ -43,7 +43,7 @@ namespace ms
 			EVENT
 		};
 
-		UIStatusBar(const CharStats& stats);
+		UIStatusBar(const CharStats& stats, uint8_t channel_count);
 
 		void draw(float alpha) const override;
 		void update() override;
@@ -155,6 +155,8 @@ namespace ms
 		bool quickslot_active;
 		int16_t VWIDTH;
 		int16_t VHEIGHT;
+
+		uint8_t channel_count;
 
 		bool menu_active;
 		bool setting_active;

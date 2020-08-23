@@ -42,6 +42,11 @@ namespace ms
 		name = strsrc["name"];
 		desc = strsrc["desc"];
 
+		/// 1: Mastery, 2: Booster, 3: Final Attack
+		nl::node skilltype = src["skillType"];
+
+		element = src["elemAttr"];
+
 		for (int32_t level = 1; nl::node sub = strsrc["h" + std::to_string(level)]; level++)
 			levels.emplace(level, sub);
 
@@ -50,37 +55,68 @@ namespace ms
 
 		for (auto sub : levelsrc)
 		{
-			float damage = (float)sub["damage"] / 100;
-			int32_t matk = sub["mad"];
+			int32_t hpcost = sub["hpCon"];
+			int32_t mpcost = sub["mpCon"];
+			int32_t PAD = sub["pad"];
+			int32_t MAD = sub["mad"];
+			int32_t PDD = sub["pdd"];
+			int32_t MDD = sub["mdd"];
+			int32_t ACC = sub["acc"];
+			int32_t EVA = sub["eva"];
+			int32_t Speed = sub["speed"];
+			int32_t Jump = sub["jump"];
+
 			int32_t fixdamage = sub["fixdamage"];
 			int32_t mastery = sub["mastery"];
+			int32_t criticaldmg = sub["criticalDamage"];
+			
 			uint8_t attackcount = (uint8_t)sub["attackCount"].get_integer(1);
 			uint8_t mobcount = (uint8_t)sub["mobCount"].get_integer(1);
 			uint8_t bulletcount = (uint8_t)sub["bulletCount"].get_integer(1);
+			
 			int16_t bulletcost = (int16_t)sub["bulletConsume"].get_integer(bulletcount);
-			int32_t hpcost = sub["hpCon"];
-			int32_t mpcost = sub["mpCon"];
-			float chance = (float)sub["prop"].get_real(100.0) / 100;
+
 			float critical = 0.0f;
 			float ignoredef = 0.0f;
 			float hrange = (float)sub["range"].get_real(100.0) / 100;
+			float chance = (float)sub["prop"].get_real(100.0) / 100;
+			float damage = (float)sub["damage"] / 100;
+
 			Rectangle<int16_t> range = sub;
 			int32_t level = string_conversion::or_default<int32_t>(sub.name(), -1);
 
-			stats.emplace(
-				std::piecewise_construct,
-				std::forward_as_tuple(level),
-				std::forward_as_tuple(damage, matk, fixdamage, mastery, attackcount, mobcount, bulletcount, bulletcost, hpcost, mpcost, chance, critical, ignoredef, hrange, range)
+			stats.emplace(std::piecewise_construct, std::forward_as_tuple(level),
+				std::forward_as_tuple(damage, 
+					PAD,
+					MAD,
+					PDD,
+					MDD,
+					ACC,
+					EVA,
+					Speed,
+					Jump,
+					fixdamage, 
+					mastery, 
+					attackcount, 
+					mobcount, 
+					bulletcount, 
+					bulletcost, 
+					hpcost, 
+					mpcost, 
+					chance, 
+					critical, 
+					ignoredef, 
+					hrange, 
+					range)
 			);
 		}
-
-
-		element = src["elemAttr"];
-
-		if (jobid == "900" || jobid == "910")
+		
+		if (jobid == "900" || jobid == "910") {
 			reqweapon = Weapon::Type::NONE;
-		else
+		} 
+		else {
 			reqweapon = Weapon::by_value(100 + (int32_t)src["weapon"]);
+		}
 
 		masterlevel = static_cast<int32_t>(stats.size());
 		passive = (id % 10000) / 1000 == 0;
@@ -293,7 +329,7 @@ namespace ms
 
 		if (iter == stats.end())
 		{
-			static constexpr Stats null_stats = Stats(0.0f, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f, 0.0f, 0.0f, Rectangle<int16_t>());
+			static constexpr Stats null_stats = Stats(0.0f, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f, 0.0f, 0.0f, Rectangle<int16_t>());
 			return null_stats;
 		}
 

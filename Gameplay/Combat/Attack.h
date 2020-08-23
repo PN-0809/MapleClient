@@ -47,7 +47,14 @@ namespace ms
 		double maxdamage = 1.0;
 		float critical = 0.0f;
 		float ignoredef = 0.0f;
-		int32_t matk = 0;
+		int32_t PAD = 0;
+		int32_t MAD = 0;
+		int32_t PDD = 0;
+		int32_t MDD = 0;
+		int32_t ACC = 0;
+		int32_t EVA = 0;
+		int32_t Speed = 0;
+		int32_t Jump = 0;
 		int32_t accuracy = 0;
 		int32_t fixdamage = 0;
 		int16_t playerlevel = 1;

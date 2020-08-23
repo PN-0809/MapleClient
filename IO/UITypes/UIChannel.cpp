@@ -17,6 +17,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 #include "UIChannel.h"
 
+#include "../../Gameplay/Stage.h"
 #include "../KeyAction.h"
 
 #include "../Components/AreaButton.h"
@@ -30,12 +31,9 @@
 
 namespace ms
 {
-	UIChannel::UIChannel() : UIDragElement<PosCHANNEL>()
+	UIChannel::UIChannel(uint8_t wid, uint8_t ch_, uint8_t ch_count) : UIDragElement<PosCHANNEL>(), current_channel(ch_), selected_channel(ch_), channel_count(ch_count)
 	{
-		uint8_t selected_world = 1; // TODO: Need to get current world user is on
-		current_channel = 9; // TODO: Need to get current channel user is on
-		selected_channel = current_channel;
-		channel_count = 20; // TODO: Need to get total number of channels on world
+		uint8_t selected_world = wid;
 
 		nl::node Channel = nl::nx::ui["UIWindow2.img"]["Channel"];
 
@@ -77,7 +75,7 @@ namespace ms
 
 			x++;
 		}
-
+		old_state = { current_channel, current_channel_x, current_channel_y };
 		dimension = bg.get_dimensions();
 		dragarea = Point<int16_t>(dimension.x(), 20);
 	}
@@ -96,7 +94,7 @@ namespace ms
 			channel[false].draw(DrawArgument(position.x() + current_channel_x, position.y() + current_channel_y));
 		}
 
-		for each (auto sprite in ch)
+		for (auto &sprite : ch)
 			sprite.draw(position, inter);
 	}
 
@@ -104,7 +102,7 @@ namespace ms
 	{
 		UIElement::update();
 
-		for each (auto sprite in ch)
+		for (auto &sprite : ch)
 			sprite.update();
 	}
 
@@ -305,16 +303,27 @@ namespace ms
 	{
 		deactivate();
 
-		current_channel = 9; // TODO: Need to get current channel user is on
-		selected_channel = current_channel;
-		selected_channel_x = current_channel_x;
-		selected_channel_y = current_channel_y;
+		current_channel = old_state.current_channel_;
+		selected_channel = old_state.current_channel_;
+		selected_channel_x = old_state.current_channel_x_;
+		selected_channel_y = old_state.current_channel_y_;
 	}
 
 	void UIChannel::change_channel()
 	{
-		// TODO: Send packet to change channel?
-		cancel();
+		deactivate();
+		Stage::get().change_channel(selected_channel);
+
+		current_channel = selected_channel;
+
+		update_selected_channel_position();
+
+		current_channel_x = selected_channel_x;
+		current_channel_y = selected_channel_y;
+
+		old_state.current_channel_ = selected_channel;
+		old_state.current_channel_x_ = selected_channel_x;
+		old_state.current_channel_y_ = selected_channel_y;
 	}
 
 	void UIChannel::update_selected_channel_position()

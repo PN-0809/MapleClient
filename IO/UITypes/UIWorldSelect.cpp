@@ -611,6 +611,16 @@ namespace ms
 		}
 	}
 
+	uint8_t UIWorldSelect::get_channel_count(uint8_t wid) const 
+	{
+		for (const auto &world : worlds) {
+			if (world.wid == wid) {
+				return world.channelcount;
+			}
+		}
+		return 0;
+	}
+
 	void UIWorldSelect::enter_world()
 	{
 		Configuration::get().set_worldid(worldid);

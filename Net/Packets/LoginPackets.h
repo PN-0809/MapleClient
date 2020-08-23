@@ -21,6 +21,8 @@
 
 #include "../../Configuration.h"
 
+#include "../../Net/Login.h"
+
 namespace ms
 {
 	// Opcode: LOGIN(1)

@@ -16,7 +16,7 @@
 //	along with this program.  If not, see <https://www.gnu.org/licenses/>.		//
 //////////////////////////////////////////////////////////////////////////////////
 #include "UI.h"
-
+#include "../Gameplay/Stage.h"
 #include "UIStateCashShop.h"
 #include "UIStateGame.h"
 #include "UIStateLogin.h"
@@ -31,6 +31,7 @@
 #include "UITypes/UIQuit.h"
 #include "UITypes/UIShop.h"
 #include "UITypes/UIStatusBar.h"
+#include "UITypes/UIWorldSelect.h"
 #include "UITypes/UIWorldMap.h"
 
 namespace ms
@@ -83,7 +84,7 @@ namespace ms
 				state = std::make_unique<UIStateLogin>();
 				break;
 			case State::GAME:
-				state = std::make_unique<UIStateGame>();
+				state = std::make_unique<UIStateGame>(UI::get().get_element<UIWorldSelect>() ? UI::get().get_element<UIWorldSelect>()->get_channel_count(Stage::get().get_player().get_world_id()) : 20);
 				break;
 			case State::CASHSHOP:
 				state = std::make_unique<UIStateCashShop>();

@@ -190,9 +190,11 @@ copy /y /d "$(ProjectDir)includes\NoLifeNx\nlnx\includes\lz4_v1_8_2_win$(Platfor
     <ClCompile Include="Audio\Audio.cpp" />
     <ClCompile Include="Character\ActiveBuffs.cpp" />
     <ClCompile Include="Character\Buff.cpp" />
+    <ClCompile Include="Character\CalcDamage.cpp" />
     <ClCompile Include="Character\Char.cpp" />
     <ClCompile Include="Character\CharEffect.cpp" />
     <ClCompile Include="Character\CharStats.cpp" />
+    <ClCompile Include="Character\Debuff.cpp" />
     <ClCompile Include="Character\EquipStat.cpp" />
     <ClCompile Include="Character\ExpTable.cpp" />
     <ClCompile Include="Character\Inventory\Equip.cpp" />
@@ -221,6 +223,7 @@ copy /y /d "$(ProjectDir)includes\NoLifeNx\nlnx\includes\lz4_v1_8_2_win$(Platfor
     <ClCompile Include="Character\Player.cpp" />
     <ClCompile Include="Character\PlayerStates.cpp" />
     <ClCompile Include="Character\QuestLog.cpp" />
+    <ClCompile Include="Character\Rand32.cpp" />
     <ClCompile Include="Character\SkillBook.cpp" />
     <ClCompile Include="Character\TeleportRock.cpp" />
     <ClCompile Include="Configuration.cpp" />
@@ -378,9 +381,11 @@ copy /y /d "$(ProjectDir)includes\NoLifeNx\nlnx\includes\lz4_v1_8_2_win$(Platfor
     <ClInclude Include="Audio\Audio.h" />
     <ClInclude Include="Character\ActiveBuffs.h" />
     <ClInclude Include="Character\Buff.h" />
+    <ClInclude Include="Character\CalcDamage.h" />
     <ClInclude Include="Character\Char.h" />
     <ClInclude Include="Character\CharEffect.h" />
     <ClInclude Include="Character\CharStats.h" />
+    <ClInclude Include="Character\Debuff.h" />
     <ClInclude Include="Character\EquipStat.h" />
     <ClInclude Include="Character\ExpTable.h" />
     <ClInclude Include="Character\Inventory\Equip.h" />
@@ -409,6 +414,7 @@ copy /y /d "$(ProjectDir)includes\NoLifeNx\nlnx\includes\lz4_v1_8_2_win$(Platfor
     <ClInclude Include="Character\Player.h" />
     <ClInclude Include="Character\PlayerStates.h" />
     <ClInclude Include="Character\Questlog.h" />
+    <ClInclude Include="Character\Rand32.h" />
     <ClInclude Include="Character\SkillBook.h" />
     <ClInclude Include="Character\SkillId.h" />
     <ClInclude Include="Character\StatCaps.h" />

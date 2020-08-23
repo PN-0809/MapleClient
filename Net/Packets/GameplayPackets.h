@@ -39,6 +39,17 @@ namespace ms
 		ChangeMapPacket() : OutPacket(OutPacket::Opcode::CHANGE_MAP) {}
 	};
 
+	// Opcode: CHANGE_CHANNEL(40)
+	class ChangeChannelPacket : public OutPacket
+	{
+	public:
+		// Requests the server to warp the player into the cash shop
+		ChangeChannelPacket(uint8_t ch) : OutPacket(OutPacket::Opcode::CHANGE_CHANNEL) {
+			write_byte(ch);
+			write_int(0);
+		}
+	};
+
 	// Opcode: ENTER_CASHSHOP(40)
 	class EnterCashShopPacket : public OutPacket
 	{

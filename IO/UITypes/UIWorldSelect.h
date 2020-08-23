@@ -48,6 +48,7 @@ namespace ms
 		void remove_selected();
 		void set_region(uint8_t value);
 		uint16_t get_worldbyid(uint16_t worldid);
+		uint8_t get_channel_count(uint8_t wid) const;
 
 	protected:
 		Button::State button_pressed(uint16_t buttonid) override;

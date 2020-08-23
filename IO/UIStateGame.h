@@ -32,7 +32,7 @@ namespace ms
 	class UIStateGame : public UIState
 	{
 	public:
-		UIStateGame();
+		UIStateGame(uint8_t channel_count);
 
 		void draw(float inter, Point<int16_t> cursor) const override;
 		void update() override;
@@ -96,5 +96,6 @@ namespace ms
 
 		int16_t VWIDTH;
 		int16_t VHEIGHT;
+		uint8_t channel_count;
 	};
 }

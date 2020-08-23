@@ -15,54 +15,31 @@
 //	You should have received a copy of the GNU Affero General Public License	//
 //	along with this program.  If not, see <https://www.gnu.org/licenses/>.		//
 //////////////////////////////////////////////////////////////////////////////////
-#pragma once
-
-#include "../UIElement.h"
-
-#include "../Components/IconCover.h"
+#include "CalcDamage.h"
+#include "Rand32.h"
 
 namespace ms
 {
-	class BuffIcon
+	CalcDamage::CalcDamage() {}
+
+	void CalcDamage::set_seed(int32_t server_seed1, int32_t server_seed2, int32_t server_seed3)
 	{
-	public:
-		BuffIcon(int32_t buff, int32_t dur);
+		Rand32 RndGenForCharacter = Rand32();
+		RndGenForCharacter.set_seed(server_seed1, server_seed1, server_seed3);
 
-		void draw(Point<int16_t> position, float alpha) const;
-		bool update();
+		Rand32 RndForCheckDamageMiss = Rand32();
+		RndForCheckDamageMiss.set_seed(server_seed1, server_seed1, server_seed3);
 
-	private:
-		static const uint16_t FLASH_TIME = 3'000;
+		Rand32 RndForMortalBlow = Rand32();
+		RndForMortalBlow.set_seed(server_seed1, server_seed1, server_seed3);
 
-		Texture icon;
-		IconCover cover;
-		int32_t buffid;
-		int32_t duration;
-		Linear<float> opacity;
-		float opcstep;
-	};
+		Rand32 RndForSummoned = Rand32();
+		RndForSummoned.set_seed(server_seed1, server_seed1, server_seed3);
 
+		Rand32 RndForMob = Rand32();
+		RndForSummoned.set_seed(server_seed1, server_seed1, server_seed3);
 
-	class UIBuffList : public UIElement
-	{
-	public:
-		static constexpr Type TYPE = UIElement::Type::BUFFLIST;
-		static constexpr bool FOCUSED = true;
-		static constexpr bool TOGGLED = true;
-
-		UIBuffList();
-
-		void draw(float inter) const override;
-		void update() override;
-		void update_screen(int16_t new_width, int16_t new_height) override;
-
-		Cursor::State send_cursor(bool pressed, Point<int16_t> position) override;
-
-		UIElement::Type get_type() const override;
-
-		void add_buff(int32_t buffid, int32_t duration);
-
-	private:
-		std::unordered_map<int32_t, BuffIcon> icons;
-	};
+		Rand32 RndGenForMob = Rand32();
+		RndGenForMob.set_seed(server_seed1, server_seed1, server_seed3);
+	}
 }

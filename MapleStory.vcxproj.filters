@@ -573,6 +573,15 @@
     <ClCompile Include="Net\Handlers\PartyHandlers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Character\Debuff.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\CalcDamage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\Rand32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Configuration.h">
@@ -1290,6 +1299,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Net\Handlers\PartyHandlers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Debuff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\CalcDamage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Rand32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

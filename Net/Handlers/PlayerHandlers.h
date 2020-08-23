@@ -20,6 +20,7 @@
 #include "../PacketHandler.h"
 
 #include "../../Character/Buff.h"
+#include "../../Character/Debuff.h"
 #include "../../Character/MapleStat.h"
 
 namespace ms
@@ -28,6 +29,7 @@ namespace ms
 	// Opcode: CHANGE_CHANNEL(16)
 	class ChangeChannelHandler : public PacketHandler
 	{
+	public:
 		void handle(InPacket& recv) const override;
 	};
 
