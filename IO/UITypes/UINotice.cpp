@@ -321,7 +321,7 @@ namespace ms
 
 		nl::node src = nl::nx::ui["Basic.img"];
 
-		buttons[Buttons::OK] = std::make_unique<MapleButton>(src["BtOK4"], 197, box2offset(false));
+		buttons[Buttons::OK] = std::make_unique<MapleButton>(src["BtOK4"], 197, (box2offset(false) - 11.5));
 	}
 
 	void UIOk::draw(float alpha) const
